@@ -37,7 +37,7 @@ const About = () => {
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-5xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -109,19 +109,19 @@ const About = () => {
                 transition={{ duration: 0.8 }}
                 className="flex flex-col gap-6"
               >
-                <h3 className="text-2xl font-bold">
+                <h3 className="text-muted-[#0a0a0d]  text-2xl font-bold">
                   Crafting Digital Experiences with Passion and Precision
                 </h3>
 
-                <p className="text-muted-[#0a0a0d]">
+                <p className="text-base 2xl:text-lg">
                   I'm a full-stack developer with a passion for creating
                   innovative digital solutions that solve real-world problems.
-                  With over 5 years of experience in the industry, I've
+                  With over 2+ years of experience in the industry, I've
                   developed a deep understanding of both frontend and backend
                   technologies.
                 </p>
 
-                <p className="text-muted-[#0a0a0d]">
+                <p className="text-muted-[#0a0a0d] text-base 2xl:text-lg">
                   My approach combines technical excellence with creative
                   problem-solving, allowing me to build applications that are
                   not only functional but also visually stunning and intuitive
@@ -131,7 +131,7 @@ const About = () => {
                 <div className="grid grid-cols-2 gap-6 mt-4">
                   <div className="flex flex-col gap-1">
                     <span className="text-[#6c2bd9] font-bold text-xl">
-                      50+
+                      20+
                     </span>
                     <span className="text-muted-[#0a0a0d] text-sm">
                       Projects Completed
@@ -139,14 +139,14 @@ const About = () => {
                   </div>
                   <div className="flex flex-col gap-1">
                     <span className="text-[#6c2bd9] font-bold text-xl">
-                      30+
+                      10+
                     </span>
                     <span className="text-muted-[#0a0a0d] text-sm">
                       Happy Clients
                     </span>
                   </div>
                   <div className="flex flex-col gap-1">
-                    <span className="text-[#6c2bd9] font-bold text-xl">5+</span>
+                    <span className="text-[#6c2bd9] font-bold text-xl">2+</span>
                     <span className="text-muted-[#0a0a0d] text-sm">
                       Years Experience
                     </span>

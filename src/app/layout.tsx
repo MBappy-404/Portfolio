@@ -32,7 +32,7 @@ export default function RootLayout({
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="antialiased">
         <CustomCursor />
-        <ParticleBackground />
+
         <div>
           <ThemeProvider
             attribute="class"
@@ -40,7 +40,10 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <ProvidersWrapper>{children}</ProvidersWrapper>
+            <ProvidersWrapper>
+              <ParticleBackground />
+              {children}
+            </ProvidersWrapper>
           </ThemeProvider>
         </div>
       </body>

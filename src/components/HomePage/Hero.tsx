@@ -38,7 +38,7 @@ const HeroSection = () => {
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="flex flex-col gap-6"
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#6c2bd9]/10 text-[#6c2bd9] text-sm font-medium w-fit">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#6c2bd9]/10 text-[#6c2bd9] dark:text-[#8857dc] text-sm md:text-base font-medium w-fit">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#6c2bd9] opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-[#6c2bd9]"></span>
@@ -118,12 +118,12 @@ const HeroSection = () => {
               <div className="relative w-full aspect-square">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#6c2bd9]/20 to-[#c957d1]/20 rounded-full blur-3xl opacity-50" />
                 <div className="relative z-10 w-full h-full rounded-full overflow-hidden border-4 border-background/50 shadow-2xl">
-                  <Image
+                  {/* <Image
                     src={heroMe}
                     alt="Developer Portrait"
                     fill
                     className="object-cover"
-                  />
+                  /> */}
                 </div>
 
                 {/* Floating elements */}
@@ -139,7 +139,7 @@ const HeroSection = () => {
                   <div className="flex items-center gap-2">
                     <div className="size-10 rounded-full bg-[#6c2bd9]/20 flex items-center justify-center">
                       <span className="text-[#6c2bd9] text-xl font-bold">
-                        5+
+                        2+
                       </span>
                     </div>
                     <div>
@@ -150,7 +150,7 @@ const HeroSection = () => {
                 </motion.div>
 
                 <motion.div
-                  className="absolute -bottom-4 -left-8 p-4 bg-background/80 backdrop-blur-md rounded-xl border border-border/50 shadow-lg"
+                  className="absolute -bottom-4 -left-8   p-4 bg-background/80 backdrop-blur-md rounded-xl border border-border/50 shadow-lg"
                   animate={{ y: [0, 10, 0] }}
                   transition={{
                     repeat: Number.POSITIVE_INFINITY,
@@ -159,14 +159,14 @@ const HeroSection = () => {
                   }}
                 >
                   <div className="flex items-center gap-2">
-                    <div className="size-10 rounded-full bg-[#c957d1]/20 flex items-center justify-center">
+                    <div className="size-13 rounded-full bg-[#c957d1]/20 flex items-center justify-center">
                       <span className="text-[#c957d1]-[#0a0a0d] text-xl font-bold">
-                        50+
+                        20+
                       </span>
                     </div>
                     <div>
-                      <p className="text-xs text-muted-[#0a0a0d]">Completed</p>
-                      <p className="text-sm font-medium">Projects</p>
+                      <p className="text-sm text-muted-[#0a0a0d]">Completed</p>
+                      <p className="text-base font-medium">Projects</p>
                     </div>
                   </div>
                 </motion.div>

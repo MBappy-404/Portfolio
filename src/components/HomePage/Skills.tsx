@@ -81,7 +81,7 @@ const Skills = () => {
                       { name: "TypeScript", level: 90 },
                       { name: "Tailwind CSS", level: 95 },
                       { name: "Framer Motion", level: 85 },
-                      { name: "Three.js", level: 80 },
+                      { name: "Redux", level: 80 },
                     ].map((skill) => (
                       <div key={skill.name}>
                         <div className="flex justify-between mb-2">
@@ -134,7 +134,7 @@ const Skills = () => {
                       { name: "Express & Nest.js", level: 85 },
                       { name: "PostgreSQL", level: 80 },
                       { name: "MongoDB", level: 85 },
-                      { name: "GraphQL", level: 75 },
+                      { name: "Prisma", level: 75 },
                     ].map((skill) => (
                       <div key={skill.name}>
                         <div className="flex justify-between mb-2">

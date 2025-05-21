@@ -8,7 +8,7 @@ import AllProjectsSkeleton from "./ProjectSPinner";
 
 const AllProjects = () => {
   const targetRef = useRef(null);
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("ALL");
   const { scrollYProgress } = useScroll({
     target: targetRef,
     offset: ["start start", "end end"],
@@ -31,12 +31,8 @@ const AllProjects = () => {
   // Filter projects based on selected category
   const filteredProjects = projects?.data?.filter(
     (project: any) =>
-      selectedCategory === "All" || project.category === selectedCategory
+      selectedCategory === "ALL" || project.category === selectedCategory
   );
-
-  if (isLoading) {
-    return <AllProjectsSkeleton />;
-  }
 
   return (
     <div>
@@ -71,26 +67,32 @@ const AllProjects = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8 }}
-              className="flex flex-wrap gap-4 justify-center"
+              className="flex flex-wrap gap-4 justify-center font-medium"
             >
-              {["All", ...uniqueCategories].map((category: any) => (
+              {["ALL", ...uniqueCategories].map((category: any) => (
                 <button
                   key={category?._id}
                   onClick={() => setSelectedCategory(category)}
-                  className={`px-6 cursor-pointer py-2 rounded-full transition-colors ${
+                  className={`px-6 uppercase cursor-pointer py-2 rounded-full transition-colors ${
                     selectedCategory === category
                       ? "bg-[#6c2bd9] text-white"
-                      : "bg-[#6c2bd9]/10 text-[#6c2bd9] hover:bg-[#6c2bd9]/20"
+                      : "bg-[#6c2bd9]/10 dark:text-[#8046e5] text-[#6c2bd9] hover:bg-[#6c2bd9]/20"
                   }`}
                 >
                   {category}
                 </button>
               ))}
+
+              {isLoading &&
+                Array.from({ length: 4 }).map((_, i) => (
+                  <div className="px-12 py-2 rounded-full animate-pulse bg-[#6c2bd9]/10 text-[#6c2bd9] hover:bg-[#6c2bd9]/20"></div>
+                ))}
             </motion.div>
           </div>
 
-          {/* Projects Grid */}
-          {!isLoading && (
+          {isLoading ? (
+            <AllProjectsSkeleton />
+          ) : (
             <div className="grid grid-cols-1 gap-16 mb-20">
               {filteredProjects?.map((project: any, index: number) => (
                 <motion.div
@@ -107,12 +109,6 @@ const AllProjects = () => {
               ))}
             </div>
           )}
-
-          {/* Scroll Progress Indicator */}
-          <motion.div
-            style={{ scaleX: scrollYProgress }}
-            className="fixed top-0 left-0 right-0 h-1 bg-[#6c2bd9] origin-left"
-          />
         </div>
       </section>
     </div>

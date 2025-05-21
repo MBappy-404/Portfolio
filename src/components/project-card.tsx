@@ -78,7 +78,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
 
         <div className="w-full lg:w-1/2 flex flex-col gap-4">
           <h3 className="text-2xl font-bold">{project.projectName}</h3>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground text-base 2xl:text-lg">
             {project.projectDescription?.slice(0, 300)}...
           </p>
 
@@ -124,7 +124,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           <motion.div
             layoutId={`image-${project._id}`}
             className="fixed inset-0  z-[50]   pt-16 px-6"
-            transition={{ duration: 1.5, ease: "easeInOut" }}
+            transition={{ duration: 2, ease: "easeInOut" }}
           >
             <Image
               src={project.projectImage || "/placeholder.svg"}

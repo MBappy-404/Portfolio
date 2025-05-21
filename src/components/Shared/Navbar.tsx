@@ -59,8 +59,8 @@ const Navbar = () => {
       >
         <div className="container mx-auto px-4 flex justify-between items-center">
           <Link href="/" className="text-xl font-bold relative group">
-            <span className="text-[#0a0a0d]">Dev</span>
-            <span className="text-[#6c2bd9]">Portfolio</span>
+            
+            <span className="text-[#6c2bd9]">Bappy</span>
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#6c2bd9] transition-all duration-300 group-hover:w-full"></span>
           </Link>
 
@@ -93,7 +93,7 @@ const Navbar = () => {
 
             {/* Mobile menu button */}
             <button
-              className="md:hidden text-[#0a0a0d] p-1"
+              className="md:hidden dark:text-white text-[#0a0a0d] p-1"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -125,7 +125,7 @@ const Navbar = () => {
                   )}
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  {section?.pathname?.charAt(0).toUpperCase()}
+                  {section?.name}
                 </Link>
               ))}
             </div>

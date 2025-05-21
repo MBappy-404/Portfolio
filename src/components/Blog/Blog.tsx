@@ -45,7 +45,7 @@ const BlogsPage = () => {
         animate={isMounted ? { opacity: 1, y: 0 } : {}}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.8 }}
-        className="flex flex-col gap-2 items-center text-center mb-16"
+        className="flex flex-col gap-2 items-center text-center mb-10"
       >
         <h2 className="text-4xl md:text-5xl font-bold">My Blogs</h2>
         <div className="w-16 h-1 bg-[#6c2bd9]/50 rounded-full mt-4" />
@@ -68,7 +68,7 @@ const BlogsPage = () => {
                   theme === "dark" ? "bg-[#1A1A24]" : "bg-white"
                 } shadow-lg`}
               >
-                <div className="relative overflow-hidden rounded-xl mb-6 h-48">
+                <div className="relative overflow-hidden rounded-xl mb-6  h-80">
                   <div
                     className={`w-full h-full ${
                       theme === "dark" ? "bg-[#2D2D3A]" : "bg-gray-100"
@@ -161,11 +161,11 @@ const BlogsPage = () => {
                 </div>
 
                 <p
-                  className={`mb-6 ${
+                  className={`mb-6 text-base 2xl:text-lg ${
                     theme === "dark" ? "text-[#A0A0B0]" : "text-[#6A6A7A]"
                   }`}
                 >
-                  {blog?.description?.slice(0, 150)}
+                  {blog?.description?.slice(0, 150)}...
                 </p>
 
                 <Link

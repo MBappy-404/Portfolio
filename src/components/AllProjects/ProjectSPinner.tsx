@@ -1,7 +1,7 @@
 import React from "react";
 
 const SkeletonCard = () => (
-  <div className="animate-pulse  flex flex-col md:flex-row gap-6 bg-white dark:bg-[#1A1A24]    rounded-xl overflow-hidden shadow-md p-6">
+  <div className="animate-pulse  flex flex-col md:flex-row gap-6 bg-white dark:bg-[#1A1A24]    rounded-xl overflow-hidden shadow-md  p-6">
     {/* Image Placeholder (Left side) */}
     <div className="w-full md:w-1/2 h-90 bg-gray-200 dark:bg-gray-800 rounded-lg" />
 
@@ -29,7 +29,7 @@ const SkeletonCard = () => (
 const AllProjectsSkeleton = () => {
   return (
     <div className="container mx-auto px-4">
-      <div className="grid grid-cols-1 gap-16 mb-20 pt-32">
+      <div className="grid grid-cols-1 gap-16 mb-20 ">
         {Array.from({ length: 3 }).map((_, i) => (
           <SkeletonCard key={i} />
         ))}
