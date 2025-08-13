@@ -24,7 +24,7 @@ const Projects = () => {
   
 
   const {data: projects}= useAllProjectsQuery([])
-  console.log(projects);
+  // console.log(projects);
   
   
   return (

@@ -48,8 +48,6 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
- 
-
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -131,14 +129,68 @@
   }
 }
 
- 
-
 .transform-style-preserve-3d {
   transform-style: preserve-3d;
 }
 /* Global body font */
 body {
-  font-family: 'Inter', sans-serif;
-  
+  font-family: "Inter", sans-serif;
 }
- 
+
+/* Add to a global CSS file like index.css or blog.module.css */
+.blog-content h1 {
+  @apply text-xl md:text-3xl font-bold mb-4 mt-8;
+}
+
+.blog-content h2 {
+  @apply text-lg md:text-2xl font-semibold mb-4 mt-6;
+}
+
+.blog-content h3 {
+  @apply text-lg md:text-xl font-semibold mb-3 mt-5;
+}
+
+.blog-content h4 {
+  @apply text-lg md:text-xl font-semibold mb-3 mt-4;
+}
+
+.blog-content p {
+  @apply text-base md:text-lg leading-relaxed mb-4;
+}
+
+.blog-content ul {
+  @apply list-disc pl-6 mb-4;
+}
+
+.blog-content ol {
+  @apply list-decimal pl-6 mb-4;
+}
+
+.blog-content li {
+  @apply mb-2 leading-relaxed;
+}
+
+.blog-content strong {
+  @apply font-semibold;
+}
+
+.blog-content em {
+  @apply italic;
+}
+
+.blog-content hr {
+  @apply my-8 border-t border-gray-300 dark:border-gray-600;
+}
+
+.blog-content img {
+  @apply w-full h-auto rounded-md my-6 shadow;
+}
+
+.blog-content a {
+  @apply text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300 transition;
+}
+
+.blog-content blockquote {
+  @apply border-l-4 border-gray-400 dark:border-gray-600 pl-4 italic text-gray-600 dark:text-gray-400 my-6;
+}
+

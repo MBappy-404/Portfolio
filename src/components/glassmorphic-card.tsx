@@ -10,7 +10,7 @@ export function GlassmorphicCard({ children, className }: GlassmorphicCardProps)
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-2xl border border-border/50 bg-background/30 backdrop-blur-md shadow-sm",
+        "relative overflow-hidden rounded-2xl border border-border/50 bg-background/30  shadow-sm",
         className,
       )}
     >

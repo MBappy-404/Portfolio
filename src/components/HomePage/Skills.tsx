@@ -3,22 +3,100 @@ import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { GlassmorphicCard } from "../glassmorphic-card";
 import { SkillSphere } from "../skill-sphere";
- 
+import NexusOrb from "../orbbitingCircleAnimation";
+
 const Skills = () => {
-     const targetRef = useRef(null);
-    
-      const { scrollYProgress } = useScroll({
-        target: targetRef,
-        offset: ["start start", "end end"],
-      });
-      // Parallax effects
-      const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
-      const y2 = useTransform(scrollYProgress, [0, 1], [0, -200]);
-      const y3 = useTransform(scrollYProgress, [0, 1], [0, -300]);
-    
-      const springY1 = useSpring(y1, { stiffness: 100, damping: 30 });
-      const springY2 = useSpring(y2, { stiffness: 100, damping: 25 });
-      const springY3 = useSpring(y3, { stiffness: 100, damping: 20 });
+  const targetRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+    offset: ["start start", "end end"],
+  });
+  // Parallax effects
+  const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [0, -200]);
+  const y3 = useTransform(scrollYProgress, [0, 1], [0, -300]);
+
+  const springY1 = useSpring(y1, { stiffness: 100, damping: 30 });
+  const springY2 = useSpring(y2, { stiffness: 100, damping: 25 });
+  const springY3 = useSpring(y3, { stiffness: 100, damping: 20 });
+
+  // Frontend (React, Next.js, TypeScript, CSS, etc.)
+  const frontendIcons = [
+    { id: 1, component: <span className="text-base text-center">React</span> },
+    {
+      id: 2,
+      component: <span className="text-base text-center">Next.js</span>,
+    },
+    { id: 3, component: <span className="text-base text-center">TS</span> },
+    { id: 4, component: <span className="text-base text-center">Redux</span> },
+    {
+      id: 5,
+      component: <span className="text-base text-center">Framer Motion</span>,
+    },
+    {
+      id: 6,
+      component: <span className="text-base text-center">Tailwind</span>,
+    },
+  ];
+
+  const frontendCenter = (
+    <span className="text-[#6c2bd9] text-2xl font-bold">FE</span>
+  );
+
+  // Backend (MongoDB, Express, Node.js, APIs, etc.)
+  const backendIcons = [
+    {
+      id: 1,
+      component: <span className="text-base text-center">Node.js</span>,
+    },
+    {
+      id: 2,
+      component: <span className="text-base text-center">Express</span>,
+    },
+    {
+      id: 3,
+      component: <span className="text-base text-center">MongoDB</span>,
+    },
+    { id: 4, component: <span className="text-base text-center">Mongoose</span> },
+    {
+      id: 5,
+      component: <span className="text-base text-center">SQL</span>,
+    },
+    { id: 6, component: <span className="text-base text-center">JWT</span> },
+  ];
+
+  const backendCenter = (
+    <span className="text-[#6c2bd9] text-2xl font-bold">BE</span>
+  );
+  // Tools (MongoDB, Express, Node.js, APIs, etc.)
+  const toolsIcons = [
+    {
+      id: 1,
+      component: <span className="text-base text-center">Figma</span>,
+    },
+    {
+      id: 2,
+      component: <span className="text-base text-center">Vercel</span>,
+    },
+    {
+      id: 3,
+      component: <span className="text-base text-center">Netlify</span>,
+    },
+    { id: 4, component: <span className="text-base text-center">Github</span> },
+    {
+      id: 5,
+      component: <span className="text-base text-center">Render</span>,
+    },
+    { id: 6, component: <span className="text-base text-center">Vs Code</span> },
+  ];
+
+  const toolsCenter = (
+    <span className="text-[#6c2bd9] text-2xl font-bold">TOOLS</span>
+  );
+
+
+
   return (
     <div>
       <section id="skills" className="py-32 relative bg-muted/10">
@@ -50,8 +128,8 @@ const Skills = () => {
             <div className="w-16 h-1 bg-[#6c2bd9]/50 rounded-full mt-4" />
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <motion.div
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
+            {/* <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
@@ -102,9 +180,9 @@ const Skills = () => {
                   </div>
                 </div>
               </GlassmorphicCard>
-            </motion.div>
+            </motion.div> */}
 
-            <motion.div
+            {/* <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
@@ -157,21 +235,35 @@ const Skills = () => {
                   </div>
                 </div>
               </GlassmorphicCard>
-            </motion.div>
+            </motion.div> */}
 
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="col-span-1"
-            >
+            <motion.div className="col-span-1">
               <GlassmorphicCard className="h-full p-8 flex items-center justify-center">
                 <div className="w-full h-full flex flex-col items-center justify-center">
                   <h3 className="text-xl font-bold mb-8 text-center">
-                    Technology Ecosystem
+                    Frontend Development
                   </h3>
-                  <SkillSphere />
+                  <NexusOrb icons={frontendIcons} centerIcon={frontendCenter} />
+                </div>
+              </GlassmorphicCard>
+            </motion.div>
+            <motion.div className="col-span-1">
+              <GlassmorphicCard className="h-full p-8 flex items-center justify-center">
+                <div className="w-full h-full flex flex-col items-center justify-center">
+                  <h3 className="text-xl font-bold mb-8 text-center">
+                    Backend Development
+                  </h3>
+                  <NexusOrb icons={backendIcons} centerIcon={backendCenter} />
+                </div>
+              </GlassmorphicCard>
+            </motion.div>
+            <motion.div className="col-span-1">
+              <GlassmorphicCard className="h-full p-8 flex items-center justify-center">
+                <div className="w-full h-full flex flex-col items-center justify-center">
+                  <h3 className="text-xl font-bold mb-8 text-center">
+                   Tools
+                  </h3>
+                  <NexusOrb icons={toolsIcons} centerIcon={toolsCenter} />
                 </div>
               </GlassmorphicCard>
             </motion.div>

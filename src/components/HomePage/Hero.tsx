@@ -4,7 +4,7 @@ import { TextReveal } from "../text-reveal";
 import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useRef } from "react";
-import heroMe from "../../../public/herogif.gif";
+import heroMe from "../../../public/heroBappy.png";
 import Image from "next/image";
 
 const HeroSection = () => {
@@ -45,10 +45,13 @@ const HeroSection = () => {
                 </span>
                 Available for freelance work
               </div>
-
               <TextReveal
-                text="Creative Developer & Digital Craftsman"
-                className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
+                text="Hi, Im Bappy"
+                className="text-4xl md:text-5xl lg:text-6xl font-bold"
+              />
+              <TextReveal
+                text="Full Stack Developer & UI Enthusiast."
+                className="text-xl md:text-2xl"
               />
 
               <motion.p
@@ -57,10 +60,9 @@ const HeroSection = () => {
                 transition={{ delay: 0.5, duration: 0.8 }}
                 className="text-xl text-muted-[#0a0a0d] max-w-xl"
               >
-                I build exceptional digital experiences that live at the
-                intersection of art, technology, and user-centered design.
-              </motion.p>
+              I build modern web apps where code meets creativity, and every experience is crafted for speed, usability, and impact.
 
+              </motion.p>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -89,7 +91,6 @@ const HeroSection = () => {
                   <span className="absolute inset-0 bg-[#6c2bd9]/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                 </Link>
               </motion.div>
-
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -117,18 +118,18 @@ const HeroSection = () => {
             >
               <div className="relative w-full aspect-square">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#6c2bd9]/20 to-[#c957d1]/20 rounded-full blur-3xl opacity-50" />
-                <div className="relative z-10 w-full h-full rounded-full overflow-hidden border-4 border-background/50 shadow-2xl">
-                  {/* <Image
+                <div className="relative dark:bg-[#bda0ef] z-10 w-[95%] h-[95%] rounded-full overflow-hidden border-4 border-[#6c2bd9]/50 shadow-2xl">
+                  <Image
                     src={heroMe}
                     alt="Developer Portrait"
                     fill
                     className="object-cover"
-                  /> */}
+                  />
                 </div>
 
                 {/* Floating elements */}
                 <motion.div
-                  className="absolute -top-8 -right-8 p-4 bg-background/80 backdrop-blur-md rounded-xl border border-border/50 shadow-lg"
+                  className="absolute -top-4 -right-0 p-4 bg-background/80 backdrop-blur-md rounded-xl border border-border/50 shadow-lg"
                   animate={{ y: [0, -10, 0] }}
                   transition={{
                     repeat: Number.POSITIVE_INFINITY,
@@ -150,7 +151,7 @@ const HeroSection = () => {
                 </motion.div>
 
                 <motion.div
-                  className="absolute -bottom-4 -left-8   p-4 bg-background/80 backdrop-blur-md rounded-xl border border-border/50 shadow-lg"
+                  className="absolute -bottom-4 -left-0  p-4 bg-background/80 backdrop-blur-md rounded-xl border border-border/50 shadow-lg"
                   animate={{ y: [0, 10, 0] }}
                   transition={{
                     repeat: Number.POSITIVE_INFINITY,

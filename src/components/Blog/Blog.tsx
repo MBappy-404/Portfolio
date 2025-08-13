@@ -6,6 +6,7 @@ import { useAllBlogsQuery } from "@/components/redux/features/blogs/blogsApi";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import parse from 'html-react-parser';
 
 const BlogsPage = () => {
   const { theme } = useTheme();
@@ -165,7 +166,7 @@ const BlogsPage = () => {
                     theme === "dark" ? "text-[#A0A0B0]" : "text-[#6A6A7A]"
                   }`}
                 >
-                  {blog?.description?.slice(0, 150)}...
+                  {parse(blog?.description?.slice(0, 150))}...
                 </p>
 
                 <Link

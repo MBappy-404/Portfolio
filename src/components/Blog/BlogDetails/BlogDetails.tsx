@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FiArrowLeft, FiCalendar, FiClock, FiTag } from "react-icons/fi";
 import { BlogDetailSkeleton } from "./BlogDetailsSpinner";
+import parse from "html-react-parser";
 
 const BlogDetail = ({ id }: { id: string }) => {
   const { data: blogData, isLoading: isBlogLoading } = useGetBlogsQuery(id);
@@ -54,19 +55,9 @@ const BlogDetail = ({ id }: { id: string }) => {
             {/* ... main blog content same as before ... */}
             <motion.header>
               {/* Category and Date */}
-              <div className="flex items-center gap-4 mb-6">
-                <span className="px-3 py-1 rounded-full text-sm flex items-center gap-2 bg-[#6c2bd9]/10 text-[#6c2bd9] dark:bg-[#6c2bd9]/20 dark:text-[#B18AFF]">
-                  <FiTag className="text-sm" />
-                  {blog.category}
-                </span>
-                <span className="flex items-center gap-2 text-[#6A6A7A] dark:text-[#A0A0B0]">
-                  <FiCalendar className="text-sm" />
-                  {blog.createdAt?.split("T")[0]}
-                </span>
-              </div>
 
               {/* Title */}
-              <h1 className="text-4xl md:text-5xl font-bold mb-8 text-[#1A1A24] dark:text-white">
+              <h1 className="text-2xl md:text-4xl   font-bold mb-8 text-[#1A1A24] dark:text-white">
                 {blog.title}
               </h1>
 
@@ -83,19 +74,38 @@ const BlogDetail = ({ id }: { id: string }) => {
             </motion.header>
 
             {/* Author + Content */}
-            <div className="mb-12 p-6 rounded-xl bg-white dark:bg-[#1A1A24] flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-gray-200 overflow-hidden" />
-              <div>
-                <h3 className="font-medium text-[#1A1A24] dark:text-white">
-                  {blog.author}
-                </h3>
-                <p className="text-sm text-[#6A6A7A] dark:text-[#A0A0B0]">
-                  Published Author
-                </p>
+            <div className="mb-12 p-3 md:p-6 rounded-xl bg-white dark:bg-[#1A1A24] flex items-center justify-between gap-2 md:gap-4">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10  md:w-12 md:h-12 rounded-full bg-gray-200 overflow-hidden" />
+                <div>
+                  <h3 className="font-medium text-[#1A1A24] dark:text-white">
+                    {blog.author}
+                  </h3>
+                  <p className="text-sm text-[#6A6A7A] dark:text-[#A0A0B0]">
+                    Published Author
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-col items-center gap-4 ">
+                <span className="px-3 py-1 capitalize rounded-full text-sm flex items-center gap-2 bg-[#6c2bd9]/10 text-[#6c2bd9] dark:bg-[#6c2bd9]/20 dark:text-[#B18AFF]">
+                  <FiTag className=" text-sm" />
+                  {blog.category}
+                </span>
+                <span className="flex text-xs md:text-sm items-center gap-2 text-[#6A6A7A] dark:text-[#A0A0B0]">
+                  <FiCalendar className="text-sm" />
+                  {new Date(blog.createdAt).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </span>
               </div>
             </div>
             <div className="prose max-w-none leading-8 text-[#4A4A4A] dark:prose-invert dark:text-[#E0E0E0]">
-              {blog.description}
+              <div className="blog-content text-gray-800 dark:text-gray-200">
+                {parse(blog.description)}
+              </div>
             </div>
           </div>
 
@@ -139,7 +149,7 @@ const SuggestedArticleCard = ({ article }: any) => (
         <div className="flex-1">
           {/* Category and Read Time */}
           <div className="flex items-center justify-between text-xs mb-1">
-            <span className="px-2 py-0.5 rounded-full bg-[#6c2bd9]/10 text-[#6c2bd9] dark:bg-[#6c2bd9]/20 dark:text-[#B18AFF] font-medium">
+            <span className="px-2 capitalize py-0.5 rounded-full bg-[#6c2bd9]/10 text-[#6c2bd9] dark:bg-[#6c2bd9]/20 dark:text-[#B18AFF] font-medium">
               {article.category}
             </span>
             <span className="text-[#6A6A7A] dark:text-[#A0A0B0] flex items-center gap-1">
@@ -149,13 +159,13 @@ const SuggestedArticleCard = ({ article }: any) => (
           </div>
 
           {/* Title */}
-          <h4 className="text-sm font-semibold text-[#1A1A24] dark:text-white line-clamp-2 leading-snug">
+          <h4 className="text-sm font-semibold text-gray-800 dark:text-white line-clamp-2 leading-snug">
             {article.title}
           </h4>
 
           {/* Description */}
           <p className="text-xs mt-1  text-[#6A6A7A] dark:text-[#A0A0B0] line-clamp-2">
-            {article.description}
+            {parse(article.description)}
           </p>
         </div>
       </article>

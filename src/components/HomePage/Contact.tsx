@@ -56,16 +56,14 @@ const Contact = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8 }}
-              className="flex flex-col gap-8"
+              className="flex flex-col gap-4"
             >
               <h3 className="text-2xl font-bold">
                 Ready to bring your ideas to life?
               </h3>
 
               <p className="text-muted-[#0a0a0d]">
-                I'm currently available for freelance work and exciting new
-                opportunities. Whether you have a project in mind or just want
-                to connect, I'd love to hear from you.
+                Want to connect or ask something? Drop me a line!
               </p>
 
               <div className="space-y-6 mt-4">
@@ -76,10 +74,11 @@ const Contact = () => {
                   <div>
                     <h4 className="font-medium">Email</h4>
                     <Link
-                      href="mailto:contact@example.com"
+                      href="mailto:muhammadbappy989@gmail.com"
+                       target="_blank"
                       className="text-muted-[#0a0a0d] hover:text-[#6c2bd9] transition-colors"
                     >
-                      contact@example.com
+                      muhammadbappy989@gmail.com
                     </Link>
                   </div>
                 </div>
@@ -91,10 +90,11 @@ const Contact = () => {
                   <div>
                     <h4 className="font-medium">LinkedIn</h4>
                     <Link
-                      href="#"
+                      href="https://www.linkedin.com/in/saroar-jahan-bappy"
+                      target="_blank"
                       className="text-muted-[#0a0a0d] hover:text-[#6c2bd9] transition-colors"
                     >
-                      linkedin.com/in/yourprofile
+                      linkedin.com/in/saroar-jahan-bappy
                     </Link>
                   </div>
                 </div>
@@ -106,10 +106,11 @@ const Contact = () => {
                   <div>
                     <h4 className="font-medium">GitHub</h4>
                     <Link
-                      href="#"
+                      href="https://github.com/MBappy-404"
+                      target="_blank"
                       className="text-muted-[#0a0a0d] hover:text-[#6c2bd9] transition-colors"
                     >
-                      github.com/yourusername
+                      github.com/MBappy-404
                     </Link>
                   </div>
                 </div>
@@ -172,9 +173,9 @@ const Contact = () => {
                   </div>
                   <button
                     type="submit"
-                    className="group relative w-full overflow-hidden rounded-lg bg-[#6c2bd9] px-6 py-3 text-white font-medium"
+                    className="group relative cursor-pointer w-full overflow-hidden rounded-lg bg-[#6c2bd9] px-6 py-3 text-white font-medium"
                   >
-                    <span className="relative z-10 flex items-center justify-center gap-2">
+                    <span className="relative cursor-pointer z-10 flex items-center justify-center gap-2">
                       Send Message{" "}
                       <ArrowRight
                         size={16}

@@ -30,7 +30,7 @@ const ContactPage = () => {
   const [addMessage] = useAddMessageMutation();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    console.log(data);
+    // console.log(data);
 
     setIsSubmitting(true);
 

@@ -73,7 +73,7 @@ const About = () => {
                     <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-[#042868] via-transparent to-transparent opacity-50"></div>
                   </div>
 
-                  <div className="absolute -bottom-6 -right-6 p-4 bg-background/80 backdrop-blur-md rounded-xl border border-border/50 shadow-lg">
+                  <div className="absolute -bottom-2 -right-2 p-4 bg-background/80 backdrop-blur-md rounded-xl border border-border/50 shadow-lg">
                     <div className="flex items-center gap-3">
                       <div className="flex -space-x-2">
                         {[1, 2, 3].map((i) => (

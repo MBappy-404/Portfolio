@@ -4,8 +4,9 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import ProvidersWrapper from "@/providers/ProvidersWrapper";
 import { ThemeProvider } from "next-themes";
-import CustomCursor from "@/components/custom-cursor";
+// import CustomCursor from "@/components/custom-cursor";
 import ParticleBackground from "@/components/particle-background";
+import MusicPlayerButton from "@/components/MusicPlayerButton";
 
 const geistSans = Geist({
   subsets: ["latin"],
@@ -31,21 +32,22 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="antialiased">
-        <CustomCursor />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {/* <CustomCursor /> */}
 
-        <div>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
+          <div>
             <ProvidersWrapper>
               <ParticleBackground />
               {children}
             </ProvidersWrapper>
-          </ThemeProvider>
-        </div>
+              <MusicPlayerButton />
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );

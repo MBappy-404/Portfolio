@@ -2,14 +2,14 @@ import { baseApi } from "../../api/baseApi";
 
 const contactApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-     
     addMessage: builder.mutation({
-      query: () => ({
+      query: (messageData) => ({
         url: `/message/create-message`,
-        method: "GET",
+        method: "POST",
+        body: messageData,  // Send the message data here
       }),
     }),
   }),
 });
 
-export const {  useAddMessageMutation  } = contactApi;
+export const { useAddMessageMutation } = contactApi;
