@@ -1,155 +1,397 @@
-"use client";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  MotionValue,
+} from "framer-motion";
+import { cn } from "../lib/utils";
+ 
+import { Calendar } from "lucide-react";
 
-import React, { ReactNode, useEffect, useRef, useCallback } from "react";
-import Lenis from "lenis";
-
-export interface ScrollStackItemProps {
-  itemClassName?: string;
-  children: ReactNode;
+export interface TimelineEvent {
+  id?: string;
+  year: string;
+  title: string;
+  subtitle?: string;
+  description: string;
+  icon?: React.ReactNode;
+  color?: string;
 }
 
-export const ScrollStackItem: React.FC<ScrollStackItemProps> = ({
-  children,
-  itemClassName = "",
-}) => (
-  <div
-    className={`scroll-stack-card relative w-full h-80 my-8 p-12 rounded-[40px] shadow-[0_0_30px_rgba(0,0,0,0.1)] box-border origin-top will-change-transform ${itemClassName}`.trim()}
-    style={{
-      backfaceVisibility: "hidden",
-      transformStyle: "preserve-3d",
-      opacity: 0,       // Start hidden for fade-in
-      transform: "translateY(50px)", // Start slightly down
-      transition: "opacity 0.8s ease, transform 0.8s ease",
-    }}
-  >
-    {children}
-  </div>
-);
-
-interface ScrollStackProps {
+export interface ScrollTimelineProps {
+  events: TimelineEvent[];
+  title?: string;
+  subtitle?: string;
+  animationOrder?: "sequential" | "staggered" | "simultaneous";
+  cardAlignment?: "alternating" | "left" | "right";
+  lineColor?: string;
+  activeColor?: string;
+  progressIndicator?: boolean;
+  cardVariant?: "default" | "elevated" | "outlined" | "filled";
+  cardEffect?: "none" | "glow" | "shadow" | "bounce";
+  parallaxIntensity?: number;
+  progressLineWidth?: number;
+  progressLineCap?: "round" | "square";
+  dateFormat?: "text" | "badge";
   className?: string;
-  children: ReactNode;
-  itemDistance?: number;
-  itemScale?: number;
-  itemStackDistance?: number;
-  stackPosition?: string;
-  scaleEndPosition?: string;
-  baseScale?: number;
-  rotationAmount?: number;
-  blurAmount?: number;
+  revealAnimation?: "fade" | "slide" | "scale" | "flip" | "none";
+  connectorStyle?: "dots" | "line" | "dashed";
+  perspective?: boolean;
+  darkMode?: boolean;
+  smoothScroll?: boolean;
 }
 
-const ScrollStack: React.FC<ScrollStackProps> = ({
-  children,
+
+
+export const ScrollTimeline = ({
+  events,
+  title = "Experience",
+  subtitle = "Scroll to explore the journey",
+  animationOrder = "sequential",
+  cardAlignment = "alternating",
+  lineColor = "bg-primary/30",
+  activeColor = "bg-primary",
+  progressIndicator = true,
+  cardVariant = "default",
+  cardEffect = "none",
+  parallaxIntensity = 0.2,
+  progressLineWidth = 2,
+  progressLineCap = "round",
+  dateFormat = "badge",
+  revealAnimation = "fade",
   className = "",
-  itemDistance = 100,
-  itemScale = 0.03,
-  itemStackDistance = 30,
-  stackPosition = "20%",
-  scaleEndPosition = "10%",
-  baseScale = 0.85,
-  rotationAmount = 0,
-  blurAmount = 0,
-}) => {
-  const scrollerRef = useRef<HTMLDivElement>(null);
-  const animationFrameRef = useRef<number | null>(null);
-  const lenisRef = useRef<Lenis | null>(null);
-  const cardsRef = useRef<HTMLElement[]>([]);
+  connectorStyle = "line",
+  perspective = false,
+  darkMode = false,
+  smoothScroll = true,
+}: ScrollTimelineProps) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const timelineRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const parsePercentage = useCallback((value: string | number, containerHeight: number) => {
-    if (typeof value === "string" && value.includes("%")) {
-      return (parseFloat(value) / 100) * containerHeight;
-    }
-    return parseFloat(value as string);
-  }, []);
+  const { scrollYProgress } = useScroll({
+    target: scrollRef,
+    offset: ["start start", "end end"],
+  });
 
-  const updateCardTransforms = useCallback(() => {
-    const scroller = scrollerRef.current;
-    if (!scroller || !cardsRef.current.length) return;
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
 
-    const scrollTop = scroller.scrollTop;
-    const containerHeight = scroller.clientHeight;
-    const stackPositionPx = parsePercentage(stackPosition, containerHeight);
-
-    cardsRef.current.forEach((card, i) => {
-      const cardTop = card.offsetTop;
-      const triggerStart = cardTop - stackPositionPx - itemStackDistance * i;
-      const triggerEnd = cardTop - containerHeight / 2;
-
-      // Fade + Slide animation
-      const progress = Math.min(1, Math.max(0, (scrollTop - triggerStart) / (triggerEnd - triggerStart)));
-      card.style.opacity = `${progress}`;
-      card.style.transform = `translateY(${50 * (1 - progress)}px)`;
-
-      // 3D stack transforms
-      const scale = baseScale + i * itemScale * progress;
-      const rotation = rotationAmount ? i * rotationAmount * progress : 0;
-      let translateY = i * itemStackDistance * progress;
-
-      card.style.transform += ` translateY(${translateY}px) scale(${scale}) rotate(${rotation}deg)`;
-
-      // Optional blur
-      if (blurAmount) {
-        const topIndex = Math.floor(scrollTop / itemStackDistance);
-        const depth = Math.max(0, topIndex - i);
-        card.style.filter = depth > 0 ? `blur(${depth * blurAmount}px)` : "none";
-      }
-    });
-  }, [itemStackDistance, itemScale, stackPosition, baseScale, rotationAmount, blurAmount, parsePercentage]);
+  const progressHeight = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
 
   useEffect(() => {
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
-
-    const cards = Array.from(scroller.querySelectorAll(".scroll-stack-card")) as HTMLElement[];
-    cardsRef.current = cards;
-
-    // Lenis smooth scroll
-    const lenis = new Lenis({
-      wrapper: scroller,
-      content: scroller.querySelector(".scroll-stack-inner") as HTMLElement,
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      touchMultiplier: 2,
+    const unsubscribe = scrollYProgress.onChange((v) => {
+      const newIndex = Math.floor(v * events.length);
+      if (
+        newIndex !== activeIndex &&
+        newIndex >= 0 &&
+        newIndex < events.length
+      ) {
+        setActiveIndex(newIndex);
+      }
     });
+    return () => unsubscribe();
+  }, [scrollYProgress, events.length, activeIndex]);
 
-    lenis.on("scroll", updateCardTransforms);
+  const getCardVariants = (index: number) => {
+    const baseDelay =
+      animationOrder === "simultaneous"
+        ? 0
+        : animationOrder === "staggered"
+        ? index * 0.2
+        : index * 0.3;
 
-    const raf = (time: number) => {
-      lenis.raf(time);
-      animationFrameRef.current = requestAnimationFrame(raf);
+    const initialStates = {
+      fade: { opacity: 0, y: 20 },
+      slide: {
+        x:
+          cardAlignment === "left"
+            ? -100
+            : cardAlignment === "right"
+            ? 100
+            : index % 2 === 0
+            ? -100
+            : 100,
+        opacity: 0,
+      },
+      scale: { scale: 0.8, opacity: 0 },
+      flip: { rotateY: 90, opacity: 0 },
+      none: { opacity: 1 },
     };
-    animationFrameRef.current = requestAnimationFrame(raf);
 
-    updateCardTransforms();
-
-    lenisRef.current = lenis;
-
-    return () => {
-      if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
-      if (lenisRef.current) lenisRef.current.destroy();
-      cardsRef.current = [];
+    return {
+      initial: initialStates[revealAnimation],
+      whileInView: {
+        opacity: 1,
+        y: 0,
+        x: 0,
+        scale: 1,
+        rotateY: 0,
+        transition: {
+          duration: 0.7,
+          delay: baseDelay,
+          ease: [0.25, 0.1, 0.25, 1.0] as [number, number, number, number],
+        },
+      },
+      viewport: { once: false, margin: "-100px" },
     };
-  }, [updateCardTransforms]);
+  };
+
+  const getConnectorClasses = () => {
+    const baseClasses = cn(
+      "absolute left-1/2 transform -translate-x-1/2",
+      lineColor
+    );
+    const widthStyle = `w-[${progressLineWidth}px]`;
+    switch (connectorStyle) {
+      case "dots":
+        return cn(baseClasses, "w-1 rounded-full");
+      case "dashed":
+        return cn(
+          baseClasses,
+          widthStyle,
+          `[mask-image:linear-gradient(to_bottom,black_33%,transparent_33%,transparent_66%,black_66%)] [mask-size:1px_12px]`
+        );
+      case "line":
+      default:
+        return cn(baseClasses, widthStyle);
+    }
+  };
+
+  const getCardClasses = (index: number) => {
+    const baseClasses = "relative z-30 rounded-lg transition-all duration-300";
+    const variantClasses = {
+      default: "bg-card border shadow-sm",
+      elevated: "bg-card border border-border/40 shadow-md",
+      outlined: "bg-card/50 backdrop-blur border-2 border-primary/20",
+      filled: "bg-primary/10 border border-primary/30",
+    };
+    const effectClasses = {
+      none: "",
+      glow: "hover:shadow-[0_0_15px_rgba(var(--primary-rgb)/0.5)]",
+      shadow: "hover:shadow-lg hover:-translate-y-1",
+      bounce: "hover:scale-[1.03] hover:shadow-md active:scale-[0.97]",
+    };
+    const alignmentClassesDesktop =
+      cardAlignment === "alternating"
+        ? index % 2 === 0
+          ? "lg:mr-[calc(50%+20px)]"
+          : "lg:ml-[calc(50%+20px)]"
+        : cardAlignment === "left"
+        ? "lg:mr-auto lg:ml-0"
+        : "lg:ml-auto lg:mr-0";
+    const perspectiveClass = perspective
+      ? "transform transition-transform hover:rotate-y-1 hover:rotate-x-1"
+      : "";
+
+    return cn(
+      baseClasses,
+      variantClasses[cardVariant],
+      effectClasses[cardEffect],
+      alignmentClassesDesktop,
+      "w-full lg:w-[calc(50%-40px)]"
+    );
+  };
 
   return (
     <div
-      className={`relative w-full h-full overflow-y-auto overflow-x-visible ${className}`.trim()}
-      ref={scrollerRef}
-      style={{
-        overscrollBehavior: "contain",
-        WebkitOverflowScrolling: "touch",
-        scrollBehavior: "smooth",
-        transform: "translateZ(0)",
-        willChange: "scroll-position",
-      }}
+      ref={scrollRef}
+      className={cn(
+        "relative min-h-screen w-full overflow-hidden",
+        darkMode ? "bg-background text-foreground" : "",
+        className
+      )}
     >
-      <div className="scroll-stack-inner pt-[20vh] px-20 pb-[50rem] min-h-screen">
-        {children}
+      <div className="text-center py-16 px-4">
+        <h2 className="text-3xl md:text-5xl font-bold mb-4">{title}</h2>
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          {subtitle}
+        </p>
+      </div>
+
+      <div className="relative max-w-6xl mx-auto px-4 pb-24">
+        <div className="relative mx-auto">
+          <div
+            className={cn(getConnectorClasses(), "h-full absolute top-0 z-10")}
+          ></div>
+
+          {/* === MODIFICATION START === */}
+          {/* Enhanced Progress Indicator with Traveling Glow */}
+          {progressIndicator && (
+            <>
+              {/* The main filled progress line */}
+              <motion.div
+                className="absolute top-0 z-10"
+                style={{
+                  height: progressHeight,
+                  width: progressLineWidth,
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  borderRadius:
+                    progressLineCap === "round" ? "9999px" : "0px",
+                  background: `linear-gradient(to bottom, #22d3ee, #6366f1, #a855f7)`,
+                  // Enhanced shadow for a constant glow effect along the path
+                  boxShadow: `
+                    0 0 15px rgba(99,102,241,0.5),
+                    0 0 25px rgba(168,85,247,0.3)
+                  `,
+                }}
+              />
+              {/* The traveling glow "comet" at the head of the line */}
+              <motion.div
+                className="absolute z-20"
+                style={{
+                  top: progressHeight,
+                  left: "50%",
+                  translateX: "-50%",
+                  translateY: "-50%", // Center the comet on the line's end point
+                }}
+              >
+                <motion.div
+                  className="w-5 h-5 rounded-full" // Size of the comet core
+                  style={{
+                    background:
+                      "radial-gradient(circle, rgba(168,85,247,0.8) 0%, rgba(99,102,241,0.5) 40%, rgba(34,211,238,0) 70%)",
+                    // Intense, layered glow effect for the comet
+                    boxShadow: `
+                      0 0 15px 4px rgba(168, 85, 247, 0.6),
+                      0 0 25px 8px rgba(99, 102, 241, 0.4),
+                      0 0 40px 15px rgba(34, 211, 238, 0.2)
+                    `,
+                  }}
+                  animate={{
+                    scale: [1, 1.3, 1],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                />
+              </motion.div>
+            </>
+          )}
+          {/* === MODIFICATION END === */}
+
+          <div className="relative z-20">
+            {events.map((event, index) => {
+              const yOffset = useTransform(
+                smoothProgress,
+                [0, 1],
+                [parallaxIntensity * 100, -parallaxIntensity * 100]
+              );
+              return (
+                <div
+                  key={event.id || index}
+                  ref={(el) => {
+                    timelineRefs.current[index] = el;
+                  }}
+                  className={cn(
+                    "relative flex items-center mb-20 py-4",
+                    "flex-col lg:flex-row",
+                    cardAlignment === "alternating"
+                      ? index % 2 === 0
+                        ? "lg:justify-start"
+                        : "lg:flex-row-reverse lg:justify-start"
+                      : cardAlignment === "left"
+                      ? "lg:justify-start"
+                      : "lg:flex-row-reverse lg:justify-start"
+                  )}
+                >
+                  <div
+                    className={cn(
+                      "absolute top-1/2 transform -translate-y-1/2 z-30",
+                      "left-1/2 -translate-x-1/2"
+                    )}
+                  >
+                    <motion.div
+                      className={cn(
+                        "w-6 h-6 rounded-full border-4 bg-background flex items-center justify-center",
+                        index <= activeIndex
+                          ? "border-primary"
+                          : "border bg-card"
+                      )}
+                      animate={
+                        index <= activeIndex
+                          ? {
+                              scale: [1, 1.3, 1],
+                              boxShadow: [
+                                "0 0 0px rgba(99,102,241,0)",
+                                "0 0 12px rgba(99,102,241,0.6)",
+                                "0 0 0px rgba(99,102,241,0)",
+                              ],
+                            }
+                          : {}
+                      }
+                      transition={{
+                        duration: 0.8,
+                        repeat: Infinity,
+                        repeatDelay: 4,
+                        ease: "easeInOut",
+                      }}
+                    />
+                  </div>
+                  <motion.div
+                    className={cn(
+                      getCardClasses(index),
+                      "mt-12 lg:mt-0"
+                    )}
+                    variants={getCardVariants(index)}
+                    initial="initial"
+                    whileInView="whileInView"
+                    viewport={{ once: false, margin: "-100px" }}
+                    style={parallaxIntensity > 0 ? { y: yOffset } : undefined}
+                  >
+                      {/* Custom Card Layout */}
+                      <div
+                        className={cn(
+                          "bg-background border border-primary/20 rounded-xl shadow-lg p-6 flex flex-col gap-2",
+                          "hover:shadow-2xl hover:border-primary transition-all duration-300"
+                        )}
+                      >
+                        {dateFormat === "badge" ? (
+                          <div className="flex items-center mb-2">
+                            {event.icon || (
+                              <Calendar className="h-4 w-4 mr-2 text-primary" />
+                            )}
+                            <span
+                              className={cn(
+                                "text-sm font-bold",
+                                event.color ? `text-${event.color}` : "text-primary"
+                              )}
+                            >
+                              {event.year}
+                            </span>
+                          </div>
+                        ) : (
+                          <p className="text-lg font-bold text-primary mb-2">
+                            {event.year}
+                          </p>
+                        )}
+                        <h3 className="text-xl font-bold mb-1">
+                          {event.title}
+                        </h3>
+                        {event.subtitle && (
+                          <p className="text-muted-foreground font-medium mb-2">
+                            {event.subtitle}
+                          </p>
+                        )}
+                        <p className="text-muted-foreground">
+                          {event.description}
+                        </p>
+                      </div>
+                  </motion.div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </div>
   );
 };
-
-export default ScrollStack;

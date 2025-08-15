@@ -6,7 +6,7 @@ const MUSIC_SRC = "/themeSong.mp3";
 
 export default function MusicPlayerButton() {
   const [playing, setPlaying] = useState(true);
-  const [volume, setVolume] = useState(0.8);
+  const [volume, setVolume] = useState(0.3);
   const [modalOpen, setModalOpen] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const userInteractedRef = useRef(false);

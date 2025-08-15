@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ThemeToggle } from "../theme-toggle";
 import { usePathname } from "next/navigation";
+import HamburgerMenuOverlay from "../AnimatedMenu";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -51,15 +52,17 @@ const Navbar = () => {
           "fixed top-0 left-0 right-0 z-40 transition-all duration-500",
           scrollY > 50
             ? "bg-background/80 backdrop-blur-md border-b border-border/40 py-4"
-            : "py-6"
+            : "py-4"
         )}
       >
         <div className="container mx-auto px-4 flex justify-between items-center">
-          <Link href="/" className="text-xl font-bold relative group">
-            
+          <Link href="/" className="text-xl font-bold relative group md:translate-x-0 translate-x-12">
             <span className="text-[#6c2bd9]">Bappy</span>
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#6c2bd9] transition-all duration-300 group-hover:w-full"></span>
           </Link>
+         <div className="md:hidden">
+            <HamburgerMenuOverlay />
+         </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex gap-8">
@@ -88,13 +91,7 @@ const Navbar = () => {
           <div className="flex items-center gap-4">
             <ThemeToggle />
 
-            {/* Mobile menu button */}
-            <button
-              className="md:hidden dark:text-white text-[#0a0a0d] p-1"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+       
           </div>
         </div>
       </header>

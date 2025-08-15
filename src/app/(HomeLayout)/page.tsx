@@ -16,6 +16,7 @@ import About from "@/components/HomePage/About";
 import Skills from "@/components/HomePage/Skills";
 import Projects from "@/components/HomePage/Projects";
 import Contact from "@/components/HomePage/Contact";
+import Experience from "@/components/HomePage/Experience";
 
 export default function Home() {
   const targetRef = useRef(null);
@@ -45,6 +46,8 @@ export default function Home() {
 
         {/* About Section */}
         <About />
+        {/* Experience Section */}
+        <Experience />
 
         {/* Skills Section */}
         <Skills />

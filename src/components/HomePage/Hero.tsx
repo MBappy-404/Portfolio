@@ -118,7 +118,7 @@ const HeroSection = () => {
             >
               <div className="relative w-full aspect-square">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#6c2bd9]/20 to-[#c957d1]/20 rounded-full blur-3xl opacity-50" />
-                <div className="relative dark:bg-[#bda0ef] z-10 w-[95%] h-[95%] rounded-full overflow-hidden border-4 border-[#6c2bd9]/50 shadow-2xl">
+                <div className="relative dark:bg-[#bda0ef] z-10 w-[85%] h-[85%] rounded-full overflow-hidden border-4 border-[#6c2bd9]/50 shadow-2xl">
                   <Image
                     src={heroMe}
                     alt="Developer Portrait"

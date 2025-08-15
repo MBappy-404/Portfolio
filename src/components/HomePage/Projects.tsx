@@ -6,6 +6,7 @@ import { useRef } from "react";
 import { ProjectCard } from "../project-card";
 import { GlassmorphicCard } from "../glassmorphic-card";
 import { useAllProjectsQuery } from "../redux/features/projects/adminApi";
+
 const Projects = () => {
   const targetRef = useRef(null);
 
@@ -21,12 +22,9 @@ const Projects = () => {
   const springY2 = useSpring(y2, { stiffness: 100, damping: 25 });
   const springY3 = useSpring(y3, { stiffness: 100, damping: 20 });
 
-  
-
-  const {data: projects}= useAllProjectsQuery([])
+  const { data: projects } = useAllProjectsQuery([]);
   // console.log(projects);
-  
-  
+
   return (
     <div>
       <section id="projects" className="py-32 relative">
@@ -61,16 +59,16 @@ const Projects = () => {
           {/* Featured Projects */}
           <div className="grid grid-cols-1 gap-16 mb-20">
             {projects?.data?.map((project: any, index: number) => (
-                <motion.div
-                  key={project?._id}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.8, delay: index * 0.2 }}
-                >
-                  <ProjectCard project={project} index={index} />
-                </motion.div>
-              ))}
+              <motion.div
+                key={project?._id}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.8, delay: index * 0.2 }}
+              >
+                <ProjectCard project={project} index={index} />
+              </motion.div>
+            ))}
           </div>
 
           {/* Other Projects */}
