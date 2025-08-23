@@ -17,6 +17,7 @@ import Skills from "@/components/HomePage/Skills";
 import Projects from "@/components/HomePage/Projects";
 import Contact from "@/components/HomePage/Contact";
 import Experience from "@/components/HomePage/Experience";
+import PricingSection from "@/components/HomePage/Pricing";
 
 export default function Home() {
   const targetRef = useRef(null);
@@ -54,6 +55,8 @@ export default function Home() {
 
         {/* Projects Section */}
         <Projects />
+        {/* Pricing Section  */}
+        <PricingSection />
         {/* Contact Section */}
         <Contact />
       </div>

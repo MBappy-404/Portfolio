@@ -51,13 +51,13 @@ export const ScrollTimeline = ({
   subtitle = "Scroll to explore the journey",
   animationOrder = "sequential",
   cardAlignment = "alternating",
-  lineColor = "bg-primary/30",
+  lineColor = "bg-gray-300 dark:bg-gray-700",
   activeColor = "bg-primary",
   progressIndicator = true,
   cardVariant = "default",
   cardEffect = "none",
   parallaxIntensity = 0.2,
-  progressLineWidth = 2,
+  progressLineWidth = 3,
   progressLineCap = "round",
   dateFormat = "badge",
   revealAnimation = "fade",
@@ -145,30 +145,28 @@ export const ScrollTimeline = ({
   const getConnectorClasses = () => {
     const baseClasses = cn(
       "absolute left-1/2 transform -translate-x-1/2",
-      lineColor
+      `border-l-[${progressLineWidth}px] border-gray-300 dark:border-gray-700`
     );
-    const widthStyle = `w-[${progressLineWidth}px]`;
     switch (connectorStyle) {
       case "dots":
         return cn(baseClasses, "w-1 rounded-full");
       case "dashed":
         return cn(
           baseClasses,
-          widthStyle,
           `[mask-image:linear-gradient(to_bottom,black_33%,transparent_33%,transparent_66%,black_66%)] [mask-size:1px_12px]`
         );
       case "line":
       default:
-        return cn(baseClasses, widthStyle);
+        return baseClasses;
     }
   };
 
   const getCardClasses = (index: number) => {
-    const baseClasses = "relative z-30 rounded-lg transition-all duration-300";
+  const baseClasses = `relative  border-[3px] z-30 rounded-xl ${index === activeIndex ? " border-[#8b5cf4] shadow-2xl shadow-[#8c5cf4b0]" : "border-gray-300 dark:border-gray-700 dark:hover:border-gray-600 hover:border-gray-400"} transition-all duration-300`;
     const variantClasses = {
-      default: "bg-card border shadow-sm",
-      elevated: "bg-card border border-border/40 shadow-md",
-      outlined: "bg-card/50 backdrop-blur border-2 border-primary/20",
+      default: "bg-card border-[3px] shadow-2xl",
+      elevated: "bg-card border border-border/40 ",
+      outlined: "bg-card/50 backdrop-blur border-primary/20",
       filled: "bg-primary/10 border border-primary/30",
     };
     const effectClasses = {
@@ -202,7 +200,7 @@ export const ScrollTimeline = ({
     <div
       ref={scrollRef}
       className={cn(
-        "relative min-h-screen w-full overflow-hidden",
+        "relative min-h-screen w-full  overflow-hidden",
         darkMode ? "bg-background text-foreground" : "",
         className
       )}
@@ -291,21 +289,21 @@ export const ScrollTimeline = ({
                   ref={(el) => {
                     timelineRefs.current[index] = el;
                   }}
-                  className={cn(
-                    "relative flex items-center mb-20 py-4",
-                    "flex-col lg:flex-row",
-                    cardAlignment === "alternating"
-                      ? index % 2 === 0
+                    className={cn(
+                      "relative flex items-center mb-36 py-4",
+                      "flex-col lg:flex-row",
+                      cardAlignment === "alternating"
+                        ? index % 2 === 0
+                          ? "lg:justify-start"
+                          : "lg:flex-row-reverse lg:justify-start"
+                        : cardAlignment === "left"
                         ? "lg:justify-start"
                         : "lg:flex-row-reverse lg:justify-start"
-                      : cardAlignment === "left"
-                      ? "lg:justify-start"
-                      : "lg:flex-row-reverse lg:justify-start"
-                  )}
+                    )}
                 >
                   <div
                     className={cn(
-                      "absolute top-1/2 transform -translate-y-1/2 z-30",
+                      "absolute top-1/2 transform  -translate-y-1/2 z-30",
                       "left-1/2 -translate-x-1/2"
                     )}
                   >
@@ -336,56 +334,51 @@ export const ScrollTimeline = ({
                       }}
                     />
                   </div>
-                  <motion.div
+                  <div
                     className={cn(
                       getCardClasses(index),
-                      "mt-12 lg:mt-0"
+                      "mt-12 lg:mt-0",
+                      "bg-white dark:bg-gray-900/30"
                     )}
-                    variants={getCardVariants(index)}
-                    initial="initial"
-                    whileInView="whileInView"
-                    viewport={{ once: false, margin: "-100px" }}
-                    style={parallaxIntensity > 0 ? { y: yOffset } : undefined}
                   >
-                      {/* Custom Card Layout */}
-                      <div
-                        className={cn(
-                          "bg-background border border-primary/20 rounded-xl shadow-lg p-6 flex flex-col gap-2",
-                          "hover:shadow-2xl hover:border-primary transition-all duration-300"
-                        )}
-                      >
-                        {dateFormat === "badge" ? (
-                          <div className="flex items-center mb-2">
-                            {event.icon || (
-                              <Calendar className="h-4 w-4 mr-2 text-primary" />
+                    {/* Custom Card Layout */}
+                    <div
+                      className={cn(
+                        "rounded-xl p-6 flex flex-col gap-2 transition-all duration-300"
+                      )}
+                    >
+                      {dateFormat === "badge" ? (
+                        <div className="flex items-center mb-2">
+                          {event.icon || (
+                            <Calendar className="h-4 w-4 mr-2 text-primary" />
+                          )}
+                          <span
+                            className={cn(
+                              "text-sm font-bold",
+                              event.color ? `text-${event.color}` : "text-primary"
                             )}
-                            <span
-                              className={cn(
-                                "text-sm font-bold",
-                                event.color ? `text-${event.color}` : "text-primary"
-                              )}
-                            >
-                              {event.year}
-                            </span>
-                          </div>
-                        ) : (
-                          <p className="text-lg font-bold text-primary mb-2">
+                          >
                             {event.year}
-                          </p>
-                        )}
-                        <h3 className="text-xl font-bold mb-1">
-                          {event.title}
-                        </h3>
-                        {event.subtitle && (
-                          <p className="text-muted-foreground font-medium mb-2">
-                            {event.subtitle}
-                          </p>
-                        )}
-                        <p className="text-muted-foreground">
-                          {event.description}
+                          </span>
+                        </div>
+                      ) : (
+                        <p className="text-lg font-bold text-primary mb-2">
+                          {event.year}
                         </p>
-                      </div>
-                  </motion.div>
+                      )}
+                      <h3 className="text-xl font-bold mb-1">
+                        {event.title}
+                      </h3>
+                      {event.subtitle && (
+                        <p className="text-muted-foreground font-medium mb-2">
+                          {event.subtitle}
+                        </p>
+                      )}
+                      <p className="text-muted-foreground">
+                        {event.description}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               );
             })}
