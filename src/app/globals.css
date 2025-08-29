@@ -129,9 +129,7 @@
   }
 }
 
-.transform-style-preserve-3d {
-  transform-style: preserve-3d;
-}
+ 
 /* Global body font */
 body {
   font-family: "Inter", sans-serif;

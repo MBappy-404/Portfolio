@@ -9,6 +9,12 @@ import { ThemeToggle } from "../theme-toggle";
 import { usePathname } from "next/navigation";
 import HamburgerMenuOverlay from "../AnimatedMenu";
 
+const items = [
+  { label: "Home", href: "/" },
+  { label: "Projects", href: "/projects" },
+  { label: "Blogs", href: "/blogs" },
+  { label: "Contact", href: "/contact" },
+];
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathName = usePathname();
@@ -19,7 +25,7 @@ const Navbar = () => {
       name: "home",
       pathname: "/",
     },
- 
+
     {
       name: "projects",
       pathname: "/projects",
@@ -56,13 +62,16 @@ const Navbar = () => {
         )}
       >
         <div className="container mx-auto px-4 flex justify-between items-center">
-          <Link href="/" className="text-xl font-bold relative group md:translate-x-0 translate-x-12">
+          <Link
+            href="/"
+            className="text-xl font-bold relative group md:translate-x-0 translate-x-12"
+          >
             <span className="text-[#6c2bd9]">Bappy</span>
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#6c2bd9] transition-all duration-300 group-hover:w-full"></span>
           </Link>
-         <div className="md:hidden">
-            <HamburgerMenuOverlay />
-         </div>
+          <div className="md:hidden">
+            <HamburgerMenuOverlay items={items} />
+          </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex gap-8">
@@ -90,8 +99,6 @@ const Navbar = () => {
 
           <div className="flex items-center gap-4">
             <ThemeToggle />
-
-       
           </div>
         </div>
       </header>

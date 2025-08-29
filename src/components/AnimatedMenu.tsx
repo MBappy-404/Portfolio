@@ -60,12 +60,7 @@ export interface HamburgerMenuOverlayProps {
 }
 
 export const HamburgerMenuOverlay: React.FC<HamburgerMenuOverlayProps> = ({
-  items = [
-    { label: "Home", href: "/" },
-    { label: "Projects", href: "/projects" },
-    { label: "Blogs", href: "/blogs" },
-    { label: "Contact", href: "/contact" },
-  ],
+  items,
   buttonTop = "60px",
   buttonLeft = "60px",
   buttonSize = "sm",

@@ -338,7 +338,7 @@ export const ScrollTimeline = ({
                     className={cn(
                       getCardClasses(index),
                       "mt-12 lg:mt-0",
-                      "bg-white dark:bg-gray-900/30"
+                      "bg-white dark:bg-gray-900"
                     )}
                   >
                     {/* Custom Card Layout */}

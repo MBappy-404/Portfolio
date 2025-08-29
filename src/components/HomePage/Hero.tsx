@@ -23,15 +23,15 @@ const HeroSection = () => {
     <div>
       <section
         id="home"
-        className="relative min-h-screen flex items-center pt-36"
+        className="relative min-h-screen flex px-2 items-center pt-20"
       >
         <div className="absolute  inset-0 overflow-hidden">
           <div className="absolute top-1/4 -left-20 w-96 h-96 bg-[#6c2bd9]/22 rounded-full blur-3xl" />
           <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-[#6c2bd9]/22 rounded-full blur-3xl" />
         </div>
 
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="container mx-auto relative z-10 max-h-[700px] bg-gray-800/70 rounded-3xl 2xl:px-20 md:px-12 md:py-0 py-4 px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2  items-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -60,8 +60,8 @@ const HeroSection = () => {
                 transition={{ delay: 0.5, duration: 0.8 }}
                 className="text-xl text-muted-[#0a0a0d] max-w-xl"
               >
-              I build modern web apps where code meets creativity, and every experience is crafted for speed, usability, and impact.
-
+                I build modern web apps where code meets creativity, and every
+                experience is crafted for speed, usability, and impact.
               </motion.p>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -116,9 +116,9 @@ const HeroSection = () => {
               style={{ y: springY1 }}
               className="relative hidden lg:block"
             >
-              <div className="relative w-full aspect-square">
+              <div className="relative w-full flex justify-end items-center aspect-square">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#6c2bd9]/20 to-[#c957d1]/20 rounded-full blur-3xl opacity-50" />
-                <div className="relative dark:bg-[#bda0ef] z-10 w-[85%] h-[85%] rounded-full overflow-hidden border-4 border-[#6c2bd9]/50 shadow-2xl">
+                <div className="relative dark:bg-[#bda0ef] z-10   w-[75%] h-[75%] rounded-full overflow-hidden border-4 border-[#6c2bd9]/50 shadow-2xl">
                   <Image
                     src={heroMe}
                     alt="Developer Portrait"
@@ -128,7 +128,7 @@ const HeroSection = () => {
                 </div>
 
                 {/* Floating elements */}
-                <motion.div
+                {/* <motion.div
                   className="absolute -top-4 -right-0 p-4 bg-background/80 backdrop-blur-md rounded-xl border border-border/50 shadow-lg"
                   animate={{ y: [0, -10, 0] }}
                   transition={{
@@ -148,9 +148,9 @@ const HeroSection = () => {
                       <p className="text-sm font-medium">Experience</p>
                     </div>
                   </div>
-                </motion.div>
+                </motion.div> */}
 
-                <motion.div
+                {/* <motion.div
                   className="absolute -bottom-4 -left-0  p-4 bg-background/80 backdrop-blur-md rounded-xl border border-border/50 shadow-lg"
                   animate={{ y: [0, 10, 0] }}
                   transition={{
@@ -170,7 +170,7 @@ const HeroSection = () => {
                       <p className="text-base font-medium">Projects</p>
                     </div>
                   </div>
-                </motion.div>
+                </motion.div> */}
               </div>
             </motion.div>
           </div>
