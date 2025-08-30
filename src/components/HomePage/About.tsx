@@ -15,10 +15,12 @@ const About = ({ scrollYProgress }: any) => {
   const springY1 = useSpring(y1, { stiffness: 100, damping: 30 });
   const springY2 = useSpring(y2, { stiffness: 100, damping: 25 });
   const springY3 = useSpring(y3, { stiffness: 100, damping: 20 });
-  const scale = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
-  const rotate = useTransform(scrollYProgress, [0, 1], [5, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], [0.8, 0.95]); // section grows from 80% to 95%
+  const opacity = useTransform(scrollYProgress, [0, 1], [0.8, 1]); // optional: fade in
+
+
   return (
-    <motion.div style={{ scale, rotate }} className=" bg-gray-800 py-40 rounded-[100px]">
+    <motion.div style={{ scale, opacity }} className=" bg-gray-800 py-20 rounded-[100px]">
       <div>
         <div className="absolute inset-0 overflow-hidden">
           <motion.div

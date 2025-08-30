@@ -12,74 +12,69 @@ import Contact from "@/components/HomePage/Contact";
 import Experience from "@/components/HomePage/Experience";
 import PricingSection from "@/components/HomePage/Pricing";
 import Preloader from "@/components/Preloader";
-// import TestSection from "@/components/HomePage/test/TestSection";
 
 export default function Home() {
-  const targetRef = useRef(null);
+  const targetRef = useRef<HTMLDivElement | null>(null);
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [scrollReady, setScrollReady] = useState(false);
+
+  // we create scroll only when ready
   const { scrollYProgress } = useScroll({
-    target: targetRef,
+    target: scrollReady ? targetRef : undefined,
     offset: ["start start", "end end"],
   });
 
-  const [isLoading, setIsLoading] = useState(true);
+   useEffect(() => {
+    (async () => {
+      const LocomotiveScroll = (await import("locomotive-scroll")).default;
+      new LocomotiveScroll();
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const LocomotiveScroll = (await import("locomotive-scroll")).default;
-  //     const locomotiveScroll = new LocomotiveScroll();
+      // preloader timeout
+      setTimeout(() => {
+        setIsLoading(false);
 
-  //     setTimeout(() => {
-  //       setIsLoading(false);
-  //       document.body.style.cursor = "default";
-  //       window.scrollTo(0, 0);
-  //     }, 2000);
-  //   })();
-  // }, []);
+        // ensure next tick ref is mounted
+        setTimeout(() => {
+          setScrollReady(true);
+        }, 50);
+
+        document.body.style.cursor = "default";
+        window.scrollTo(0, 0);
+      }, 2000);
+    })();
+  }, []);
 
   return (
-    <div
-      // ref={targetRef}
-      className="relative min-h-screen bg-gradient-to-b from-background via-background to-background/90 overflow-hidden"
-    >
+    <div className="relative min-h-screen bg-gradient-to-b from-background via-background to-background/90 overflow-hidden">
       <ParticleBackground />
 
-      {/* Progress bar */}
-      {/* <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-[#6c2bd9] z-50"
-        style={{ scaleX: scrollYProgress, transformOrigin: "0%" }}
-      /> */}
-
-      {/* <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait">
         {isLoading ? (
           <Preloader key="preloader" />
-        ) : ( */}
+        ) : (
           <motion.div
             key="content"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8 }}
           >
-            <main ref={targetRef} className="relative ">
+            <main ref={targetRef} className="relative">
               {/* Hero Section */}
               <HeroSection scrollYProgress={scrollYProgress} />
               {/* About Section */}
               <About scrollYProgress={scrollYProgress} />
             </main>
-            {/* <TestSection/> */}
-            {/* Experience Section */}
+
+            {/* Other Sections */}
             <Experience />
-            {/* Skills Section */}
             <Skills />
-            {/* Projects Section */}
             <Projects />
-            {/* Pricing Section */}
             <PricingSection />
-            {/* Contact Section */}
             <Contact />
           </motion.div>
-        {/* )} */}
-      {/* </AnimatePresence> */}
+        )}
+      </AnimatePresence>
     </div>
   );
 }
