@@ -6,13 +6,7 @@ import { useRef } from "react";
 import { GlassmorphicCard } from "../glassmorphic-card";
 import aboutImage from "../../../public/hero_image2.webp";
 import Image from "next/image";
-const About = () => {
-  const targetRef = useRef(null);
-
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-    offset: ["start start", "end end"],
-  });
+const About = ({ scrollYProgress }: any) => {
   // Parallax effects
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const y2 = useTransform(scrollYProgress, [0, 1], [0, -200]);
@@ -21,10 +15,11 @@ const About = () => {
   const springY1 = useSpring(y1, { stiffness: 100, damping: 30 });
   const springY2 = useSpring(y2, { stiffness: 100, damping: 25 });
   const springY3 = useSpring(y3, { stiffness: 100, damping: 20 });
-
+  const scale = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
+  const rotate = useTransform(scrollYProgress, [0, 1], [5, 0]);
   return (
-    <div>
-      <section id="about" className="py-32 relative">
+    <motion.div style={{ scale, rotate }} className=" bg-gray-800 py-40 rounded-[100px]">
+      <div>
         <div className="absolute inset-0 overflow-hidden">
           <motion.div
             style={{ y: springY2 }}
@@ -38,11 +33,8 @@ const About = () => {
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-6xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8 }}
+            <div
+               
               className="flex flex-col gap-2 items-center text-center mb-16"
             >
               <span className="text-[#6c2bd9] text-sm font-medium uppercase tracking-wider">
@@ -52,14 +44,11 @@ const About = () => {
                 The Story So Far
               </h2>
               <div className="w-16 h-1 bg-[#6c2bd9]/50 rounded-full mt-4" />
-            </motion.div>
+            </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-              <motion.div
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.8 }}
+              <div
+                 
                 className="relative"
               >
                 <GlassmorphicCard className="p-4 md:p-5">
@@ -100,13 +89,9 @@ const About = () => {
                     </div>
                   </div>
                 </GlassmorphicCard>
-              </motion.div>
+              </div>
 
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.8 }}
+              <div
                 className="flex flex-col gap-6"
               >
                 <h3 className="text-muted-[#0a0a0d]  text-2xl font-bold">
@@ -171,12 +156,12 @@ const About = () => {
                     className="group-hover:translate-x-1 transition-transform"
                   />
                 </Link>
-              </motion.div>
+              </div>
             </div>
           </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </motion.div>
   );
 };
 
