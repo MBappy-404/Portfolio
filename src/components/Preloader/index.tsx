@@ -1,94 +1,60 @@
-"use client";
-import styles from "./style.module.css";
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { opacity, slideUp } from "./anim";
+'use client';
+import styles from './style.module.css';
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { opacity, slideUp } from './anim';
 
 const words = [
   "السلام عليكم", // Arabic - Assalamu Alaikum
-  "Hello", // English
   "হ্যালো", // Bangla
   "नमस्ते", // Hindi
   "السلام علیکم", // Urdu
   "سلام", // Persian
-  "你好", // Chinese
-  "こんにちは", // Japanese
   "Ciao", // Italian
   "Hola", // Spanish
   "Hallo", // German
+  "Hello", // English
 ];
 
-export default function Preloader({ onFinish }: { onFinish?: () => void }) {
-  const [index, setIndex] = useState(0);
-  const [show, setShow] = useState(true);
-  const [dimension, setDimension] = useState({ width: 0, height: 0 });
+export default function Index() {
+    const [index, setIndex] = useState(0);
+    const [dimension, setDimension] = useState({width: 0, height:0});
 
-  useEffect(() => {
-    setDimension({ width: window.innerWidth, height: window.innerHeight });
-  }, []);
+    useEffect( () => {
+        setDimension({width: window.innerWidth, height: window.innerHeight})
+    }, [])
 
-  useEffect(() => {
-    if (index < words.length - 1) {
-      const timer = setTimeout(() => {
-        setIndex((prev) => prev + 1);
-      }, index === 0 ? 1000 : 150);
-      return () => clearTimeout(timer);
-    } else {
-      // সব word দেখানোর পর ১ সেকেন্ডে preloader close হবে
-      const timeout = setTimeout(() => {
-        setShow(false);
-        onFinish?.(); // parent কে জানাতে পারো preloader শেষ হয়েছে
-      }, 1000);
-      return () => clearTimeout(timeout);
+    useEffect( () => {
+        if(index == words.length - 1) return;
+        setTimeout( () => {
+            setIndex(index + 1)
+        }, index == 0 ? 1000 : 150)
+    }, [index])
+
+    const initialPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${dimension.height} Q${dimension.width/2} ${dimension.height + 300} 0 ${dimension.height}  L0 0`
+    const targetPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${dimension.height} Q${dimension.width/2} ${dimension.height} 0 ${dimension.height}  L0 0`
+
+    const curve = {
+        initial: {
+            d: initialPath,
+            transition: {duration: 0.7, ease: [0.76, 0, 0.24, 1]}
+        },
+        exit: {
+            d: targetPath,
+            transition: {duration: 0.7, ease: [0.76, 0, 0.24, 1], delay: 0.3}
+        }
     }
-  }, [index]);
 
-  const initialPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${
-    dimension.height
-  } Q${dimension.width / 2} ${dimension.height + 300} 0 ${
-    dimension.height
-  }  L0 0`;
-  const targetPath = `M0 0 L${dimension.width} 0 L${dimension.width} ${
-    dimension.height
-  } Q${dimension.width / 2} ${dimension.height} 0 ${dimension.height}  L0 0`;
-
-  const curve = {
-    initial: {
-      d: initialPath,
-      transition: { duration: 0.7, ease: [0.76, 0, 0.24, 1] },
-    },
-    exit: {
-      d: targetPath,
-      transition: { duration: 0.7, ease: [0.76, 0, 0.24, 1], delay: 0.3 },
-    },
-  };
-
-  return (
-    <AnimatePresence>
-      {show && (
-        <motion.div
-          variants={slideUp}
-          initial="initial"
-          exit="exit"
-          className={styles.introduction}
-        >
-          {dimension.width > 0 && (
+    return (
+        <motion.div variants={slideUp} initial="initial" exit="exit" className={styles.introduction}>
+            {dimension.width > 0 && 
             <>
-              <motion.p variants={opacity} initial="initial" animate="enter">
-                <span></span>
-                {words[index]}
-              </motion.p>
-              <svg>
-                <motion.path
-                  variants={curve}
-                  initial="initial"
-                  exit="exit"
-                ></motion.path>
-              </svg>
+                <motion.p variants={opacity} initial="initial" animate="enter"><span></span>{words[index]}</motion.p>
+                <svg>
+                    <motion.path variants={curve} initial="initial" exit="exit"></motion.path>
+                </svg>
             </>
-          )}
+            }
         </motion.div>
-      )}
-    </AnimatePresence>
-  );
+    )
 }

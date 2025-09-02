@@ -6,9 +6,7 @@ import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import heroMe from "../../../public/heroBappy.png";
 import Image from "next/image";
 
-const HeroSection = ({scrollYProgress}: any) => {
-  
-
+const HeroSection = ({ scrollYProgress }: any) => {
   // Parallax
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -200]); // আগে -100 ছিল, এখন আরও strong
   const springY1 = useSpring(y1, { stiffness: 120, damping: 30 });
@@ -16,6 +14,7 @@ const HeroSection = ({scrollYProgress}: any) => {
   // Scale + rotate effect
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.85]);
   const rotate = useTransform(scrollYProgress, [0, 1], [0, -8]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [50, 0]);
 
   return (
     <section
@@ -29,16 +28,20 @@ const HeroSection = ({scrollYProgress}: any) => {
       </div>
 
       <motion.div
+        initial={{ opacity: 0, y: 60 }} // শুরুতে নিচে + invisible
+        animate={{ opacity: 1, y: 0 }} // উপরে উঠে এসে fade-in
+        transition={{ duration: 0.8, ease: "easeOut" }}
         style={{ scale, rotate }}
-        className="container mx-auto relative z-10 max-h-[700px] bg-gray-800/70 rounded-[50px] backdrop-blur-md shadow-2xl 2xl:px-20 md:px-12 py-10 px-6"
+        className="container mx-auto relative z-10 max-h-[700px] bg-gray-300/50 dark:bg-gray-800/40 rounded-[50px] backdrop-blur-md shadow-xl 2xl:px-20 md:px-12 py-10 px-6"
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
           {/* Left content */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
             className="flex flex-col gap-6"
+           
           >
             <TextReveal
               text="Hi, I'm Bappy"
