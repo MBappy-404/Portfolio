@@ -20,7 +20,7 @@ const About = ({ scrollYProgress }: any) => {
 
 
   return (
-    <motion.div style={{ scale, opacity }} className=" mx-auto container shadow-xl bg-gray-300/50 dark:bg-gray-800/50 mt-20 py-20 rounded-[50px]">
+    <motion.div style={{ scale, opacity }} className=" mx-auto container shadow-xl bg-gray-300/50 dark:bg-gray-800/50 md:mt-20 py-20 rounded-[50px]">
       <div>
         <div className="absolute inset-0 overflow-hidden">
           <motion.div

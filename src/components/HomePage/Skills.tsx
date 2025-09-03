@@ -2,7 +2,7 @@
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { GlassmorphicCard } from "../glassmorphic-card";
-import { SkillSphere } from "../skill-sphere";
+// import { SkillSphere } from "../skill-sphere";
 import NexusOrb from "../orbbitingCircleAnimation";
 
 const Skills = () => {

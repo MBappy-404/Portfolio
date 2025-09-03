@@ -12,8 +12,8 @@ const HeroSection = ({ scrollYProgress }: any) => {
   const springY1 = useSpring(y1, { stiffness: 120, damping: 30 });
 
   // Scale + rotate effect
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.85]);
-  const rotate = useTransform(scrollYProgress, [0, 1], [0, -8]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.75]);
+  // const rotate = useTransform(scrollYProgress, [0, 1], [0, -8]);
   const y2 = useTransform(scrollYProgress, [0, 1], [50, 0]);
 
   return (
@@ -31,7 +31,7 @@ const HeroSection = ({ scrollYProgress }: any) => {
         initial={{ opacity: 0, y: 60 }} // শুরুতে নিচে + invisible
         animate={{ opacity: 1, y: 0 }} // উপরে উঠে এসে fade-in
         transition={{ duration: 0.8, ease: "easeOut" }}
-        style={{ scale, rotate }}
+        style={{ scale }}
         className="container mx-auto relative z-10 max-h-[700px] bg-gray-300/50 dark:bg-gray-800/40 rounded-[50px] backdrop-blur-md shadow-xl 2xl:px-20 md:px-12 py-10 px-6"
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
