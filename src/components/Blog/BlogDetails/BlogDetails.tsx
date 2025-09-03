@@ -7,11 +7,73 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { FiArrowLeft, FiCalendar, FiClock, FiTag } from "react-icons/fi";
+import { FiThumbsUp, FiThumbsDown } from "react-icons/fi";
 import { BlogDetailSkeleton } from "./BlogDetailsSpinner";
 import parse from "html-react-parser";
-
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 const BlogDetail = ({ id }: { id: string }) => {
+  // Like/Dislike state
+  const [likes, setLikes] = useState(() =>
+    parseInt(localStorage.getItem(`blog_like_${id}`) || "0", 10)
+  );
+  const [dislikes, setDislikes] = useState(() =>
+    parseInt(localStorage.getItem(`blog_dislike_${id}`) || "0", 10)
+  );
+  const handleLike = () => {
+    const newLikes = likes + 1;
+    setLikes(newLikes);
+    localStorage.setItem(`blog_like_${id}`, newLikes.toString());
+  };
+  const handleDislike = () => {
+    const newDislikes = dislikes + 1;
+    setDislikes(newDislikes);
+    localStorage.setItem(`blog_dislike_${id}`, newDislikes.toString());
+  };
+  // View count using localStorage
+  const [viewCount, setViewCount] = useState(0);
+  useEffect(() => {
+    const key = `blog_view_count_${id}`;
+    let count = parseInt(localStorage.getItem(key) || "0", 10);
+    count += 1;
+    localStorage.setItem(key, count.toString());
+    setViewCount(count);
+  }, [id]);
+  // View count logic
+
+  useEffect(() => {
+    // Replace with your API endpoint or function
+    fetch(`/api/blogs/${id}/view`, { method: "POST" });
+  }, [id]);
+
+  // Comment section state
+  type Comment = { name: string; text: string };
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [commentInput, setCommentInput] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  // Dummy fetch comments (replace with real API)
+  useEffect(() => {
+    // Simulate fetch
+    setComments([
+      { name: "Saroar Jahan", text: "Great article!" },
+      { name: "Bappy", text: "Very informative." },
+    ]);
+  }, []);
+
+  const handleCommentSubmit = async (e: any) => {
+    e.preventDefault();
+    if (!commentInput.trim()) return;
+    setLoading(true);
+    // Replace with your API call
+    setTimeout(() => {
+      setComments([{ name: "You", text: commentInput }, ...comments]);
+      setCommentInput("");
+      setLoading(false);
+    }, 600);
+  };
   const { data: blogData, isLoading: isBlogLoading } = useGetBlogsQuery(id);
+  const { theme } = useTheme();
   const { data: allBlogsData, isLoading: isAllBlogsLoading } = useAllBlogsQuery(
     []
   );
@@ -57,12 +119,12 @@ const BlogDetail = ({ id }: { id: string }) => {
               {/* Category and Date */}
 
               {/* Title */}
-              <h1 className="text-2xl md:text-4xl   font-bold mb-8 text-[#1A1A24] dark:text-white">
+              <h1 className="text-2xl md:text-4xl font-bold mb-2 text-[#1A1A24] dark:text-white">
                 {blog.title}
               </h1>
 
               {/* Image */}
-              <div className="relative h-96 rounded-2xl overflow-hidden mb-12">
+              <div className="relative h-96 mt-5 rounded-2xl overflow-hidden mb-10">
                 <Image
                   src={blog.blogImage}
                   alt={blog.title}
@@ -103,7 +165,11 @@ const BlogDetail = ({ id }: { id: string }) => {
               </div>
             </div>
             <div className="prose max-w-none leading-8 text-[#4A4A4A] dark:prose-invert dark:text-[#E0E0E0]">
-              <div className="blog-content text-gray-800 dark:text-gray-200">
+              <div
+                className={`blog-content text-gray-800 dark:text-gray-200 ${
+                  theme === "dark" ? "text-white" : "text-[#1A1A24]"
+                }`}
+              >
                 {parse(blog.description)}
               </div>
             </div>
@@ -122,6 +188,104 @@ const BlogDetail = ({ id }: { id: string }) => {
               </div>
             </aside>
           )}
+        </div>
+        {/* Reactions & Comment Section */}
+        <div className="py-5 mt-3 flex justify-start">
+          <div className="max-w-3xl w-full p-4 md:p-8 rounded-3xl  bg-white dark:bg-[#181825] border border-[#ececec] dark:border-[#232336]">
+            {/* Reactions and Views */}
+            <div className="flex flex-wrap items-center justify-between mb-8 gap-4">
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={handleLike}
+                  className="flex cursor-pointer items-center gap-2 md:px-4 md:py-3 px-3 py-2 rounded-xl bg-[#e9d5ff] dark:bg-[#232336] text-[#6c2bd9] dark:text-[#B18AFF] font-bold shadow hover:bg-[#d1c4e9] transition-colors"
+                >
+                  <FiThumbsUp  className=" w-5 h-5" />
+                  <span className="text-lg font-bold">{likes}</span>
+                </button>
+                <button
+                  onClick={handleDislike}
+                  className="flex cursor-pointer items-center gap-2 md:px-4 md:py-3 px-3 py-2 rounded-xl bg-[#ffe5e5] dark:bg-[#232336] text-[#d32f2f] font-bold shadow hover:bg-[#ffcdd2] transition-colors"
+                >
+                  <FiThumbsDown  className=" w-5 h-5" />
+                  <span className="text-lg font-bold">{dislikes}</span>
+                </button>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-[#6A6A7A] dark:text-[#A0A0B0]">
+                <svg
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+                <span>{viewCount} views </span>
+              </div>
+            </div>
+            {/* Comment Box */}
+            <h3 className="text-xl md:text-3xl font-bold mb-8 text-[#6c2bd9] dark:text-[#B18AFF] flex items-center gap-2">
+              <svg
+                width="28"
+                height="28"
+                fill="none"
+                stroke="#6c2bd9"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+              Comments
+            </h3>
+            <form
+              onSubmit={handleCommentSubmit}
+              className="flex flex-col md:flex-row gap-4 mb-10"
+            >
+              <input
+                type="text"
+                value={commentInput}
+                onChange={(e) => setCommentInput(e.target.value)}
+                placeholder="Add your comment..."
+                className="flex-1 px-5 py-4 rounded-xl border border-[#e5e7eb] dark:border-[#232336] bg-gray-50 dark:bg-[#232336] text-base focus:outline-none focus:ring-2 focus:ring-[#6c2bd9] shadow"
+                disabled={loading}
+              />
+              <button
+                type="submit"
+                className="px-8 py-4 cursor-pointer rounded-xl bg-[#6c2bd9] text-white font-bold shadow-lg hover:bg-[#8857dc] transition-colors duration-200"
+                disabled={loading}
+              >
+                {loading ? "Posting..." : "Post"}
+              </button>
+            </form>
+            <div className="space-y-6">
+              {comments.length === 0 ? (
+                <div className="text-center text-gray-500 dark:text-gray-400 py-8">
+                  No comments yet. Be the first to comment!
+                </div>
+              ) : (
+                comments.map((c, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-start  gap-4 p-5 rounded-2xl bg-gray-50 dark:bg-[#232336] border border-[#ececec] dark:border-[#232336] shadow"
+                  >
+                    <div className="w-12 h-12 rounded-full bg-[#6c2bd9]/20 flex items-center justify-center font-bold text-xl text-[#6c2bd9] dark:text-[#B18AFF]">
+                      {c.name.charAt(0)}
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-semibold text-lg text-[#1A1A24] dark:text-white">
+                        {c.name}
+                      </p>
+                      <p className="text-base whitespace-break-spaces break-all text-[#6A6A7A] dark:text-[#A0A0B0] mt-1">
+                        {c.text}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>

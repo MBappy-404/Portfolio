@@ -29,7 +29,7 @@ const MarqueSkills = () => {
       <ThreeDScrollTriggerContainer>
         {/* Row 1 - Frontend */}
         <ThreeDScrollTriggerRow baseVelocity={5} direction={1}>
-          <div className="flex items-center mx-5 justify-center w-28 h-28 gap-5 rounded-2xl shadow-lg bg-[#61DAFB]/10 border border-[#61DAFB]/40">
+          <div className="flex items-center mx-5 justify-center w-28 h-28  rounded-2xl shadow-lg bg-[#61DAFB]/10 border border-[#61DAFB]/40">
             <span className="text-[#61DAFB] font-bold">React</span>
           </div>
           <div className="flex items-center mx-5 justify-center w-28 h-28 rounded-2xl shadow-lg bg-gray-900/80 border border-gray-800/70">
@@ -47,7 +47,7 @@ const MarqueSkills = () => {
         <ThreeDScrollTriggerRow
           baseVelocity={3}
           direction={-1}
-          className="my-12"
+          className="py-10"
         >
           <div className="flex items-center mx-5 justify-center w-28 h-28 rounded-2xl shadow-lg bg-[#68A063]/10 border border-[#68A063]/40">
             <span className="text-[#68A063] font-bold">Node.js</span>
@@ -58,8 +58,8 @@ const MarqueSkills = () => {
           <div className="flex items-center mx-5 justify-center w-28 h-28 rounded-2xl shadow-lg bg-[#47A248]/10 border border-[#47A248]/40">
             <span className="text-[#47A248] font-bold">MongoDB</span>
           </div>
-          <div className="flex items-center mx-5 justify-center w-28 h-28 rounded-2xl shadow-lg bg-[#0C344B]/10 border border-[#0C344B]/40">
-            <span className="text-[#0C344B] font-bold">Prisma</span>
+          <div className="flex items-center mx-5 justify-center w-28 h-28 rounded-2xl shadow-lg bg-[#0C344B]/30 border border-[#0C344B]/60">
+            <span className="text-[#1b6a97] font-bold">Prisma</span>
           </div>
           <div className="flex items-center mx-5 justify-center w-28 h-28 rounded-2xl shadow-lg bg-[#336791]/10 border border-[#336791]/40">
             <span className="text-[#336791] font-bold">PostgreSQL</span>
@@ -71,7 +71,7 @@ const MarqueSkills = () => {
 
         {/* Row 3 - Tools */}
         <ThreeDScrollTriggerRow baseVelocity={6} direction={1}>
-          <div className="flex items-center mx-5 justify-center w-28 h-28 rounded-2xl shadow-lg bg-[#181717]/10 border border-[#181717]/40">
+          <div className="flex items-center mx-5 justify-center w-28 h-28 rounded-2xl shadow-lg bg-[#181717]/70 border border-[#282626]">
             <span className="text-gray-200 font-bold">GitHub</span>
           </div>
           <div className="flex items-center mx-5 justify-center w-28 h-28 rounded-2xl shadow-lg bg-[#007ACC]/10 border border-[#007ACC]/40">
