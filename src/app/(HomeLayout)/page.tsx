@@ -55,7 +55,7 @@ export default function Home() {
             {/* Other Sections */}
             <MarqueSkills/>
             <Experience />
-            <Skills />
+            {/* <Skills /> */}
             <Projects />
             <PricingSection />
             <Contact />

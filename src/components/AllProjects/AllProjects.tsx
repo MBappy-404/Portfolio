@@ -93,16 +93,11 @@ const AllProjects = () => {
           {isLoading ? (
             <AllProjectsSkeleton />
           ) : (
-            <div className="grid grid-cols-1 gap-16 mb-20">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-20">
               {filteredProjects?.map((project: any, index: number) => (
                 <motion.div
                   key={project?._id}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.8, delay: index * 0.2 }}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  
                 >
                   <ProjectCard project={project} index={index} />
                 </motion.div>

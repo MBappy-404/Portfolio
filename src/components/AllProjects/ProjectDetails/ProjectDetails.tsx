@@ -59,29 +59,26 @@ const ProjectDetails = ({ id }: { id: any }) => {
   return (
     <div className="min-h-screen bg-white dark:bg-neutral-900 text-neutral-800 dark:text-neutral-100">
       {/* Hero Section */}
-      <section className="relative w-full aspect-[3/2] sm:aspect-[16/9] md:aspect-[2/1] lg:aspect-[16/8] mt-28 overflow-hidden">
-  <motion.div
-    initial={{ scale: 1.1 }}
-    animate={{ scale: 1 }}
-    transition={{ duration: 1.2, ease: [0.16, 0.77, 0.47, 0.97] }}
-    className="absolute inset-0"
-  >
-    <Image
-      src={project.projectImage}
-      alt={project.projectName}
-      fill
-      className="object-cover"
-      priority
-      quality={100}
-    />
-    <div className="absolute inset-0 bg-gradient-to-t to-transparent dark:from-neutral-900 dark:via-neutral-900/40" />
-  </motion.div>
-</section>
-
+      <section className="relative w-full container mx-auto px-4   aspect-[3/2] sm:aspect-[16/9] md:aspect-[2/1] lg:aspect-[16/8] mt-[75px] overflow-hidden">
+        <motion.div
+           
+          className="absolute inset-0"
+        > 
+          <Image
+            src={project.projectImage}
+            alt={project.projectName}
+            fill
+            className="object-cover"
+            priority
+            quality={100}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t to-transparent dark:from-neutral-900 dark:via-neutral-900/40" />
+        </motion.div>
+      </section>
 
       {/* Content Grid */}
       <div className="container mx-auto px-4 lg:px-8 py-16 grid lg:grid-cols-[1fr_400px] gap-12  ">
-        {/* Main Content */}  
+        {/* Main Content */}
         <div className="space-y-16">
           <div className="   flex flex-col justify-end container mx-auto ">
             <motion.div
@@ -95,15 +92,13 @@ const ProjectDetails = ({ id }: { id: any }) => {
               <div className="flex gap-4">
                 {project.liveProjectLink && (
                   <motion.a
-                     target="_blank"
+                    target="_blank"
                     whileHover={{ y: -2 }}
                     href={project.liveProjectLink}
                     className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#6c2bd9] "
                   >
                     <FiExternalLink className="text-white" />
-                    <span className=" text-neutral-200">
-                      Live Demo
-                    </span>
+                    <span className=" text-neutral-200">Live Demo</span>
                   </motion.a>
                 )}
                 {project.frontendGitHubLink && (
@@ -114,9 +109,7 @@ const ProjectDetails = ({ id }: { id: any }) => {
                     className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#6c2bd9] "
                   >
                     <FiGithub className="text-white" />
-                    <span className=" text-neutral-200">
-                      Source Code
-                    </span>
+                    <span className=" text-neutral-200">Source Code</span>
                   </motion.a>
                 )}
               </div>
@@ -264,8 +257,6 @@ const ProjectDetails = ({ id }: { id: any }) => {
           )}
         </div>
       </div>
-
-      
     </div>
   );
 };

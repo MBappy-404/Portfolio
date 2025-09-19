@@ -55,16 +55,13 @@ const Projects = () => {
             </h2>
             <div className="w-16 h-1 bg-[#6c2bd9]/50 rounded-full mt-4" />
           </motion.div>
-
+ 
           {/* Featured Projects */}
-          <div className="grid grid-cols-1 gap-16 mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-20">
             {projects?.data?.map((project: any, index: number) => (
               <motion.div
                 key={project?._id}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
+            
               >
                 <ProjectCard project={project} index={index} />
               </motion.div>
