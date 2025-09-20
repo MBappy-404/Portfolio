@@ -59,7 +59,7 @@ const ProjectDetails = ({ id }: { id: any }) => {
   return (
     <div className="min-h-screen bg-white dark:bg-neutral-900 text-neutral-800 dark:text-neutral-100">
       {/* Hero Section */}
-      <section className="relative w-full container mx-auto px-4   aspect-[3/2] sm:aspect-[16/9] md:aspect-[2/1] lg:aspect-[16/8] mt-[75px] overflow-hidden">
+      <section className="relative w-full container mx-auto px-4   aspect-[3/2] sm:aspect-[16/9] md:aspect-[2/1] lg:aspect-[17/8] mt-[75px] overflow-hidden">
         <motion.div
            
           className="absolute inset-0"

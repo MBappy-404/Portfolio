@@ -157,7 +157,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ duration: 0.6, ease: "easeInOut" }}
-              className="relative w-full max-w-full mt-48 aspect-video  overflow-hidden"
+              className="relative w-full max-w-full mt-[70px] aspect-[3/2] sm:aspect-[16/9] md:aspect-[2/1] lg:aspect-[17/8]   overflow-hidden"
             >
               <Image
                 src={project.projectImage || "/placeholder.svg"}
