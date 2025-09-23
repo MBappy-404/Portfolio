@@ -15,6 +15,7 @@ import Preloader from "@/components/Preloader";
 import HelperAnimation from "@/components/HomePage/HelperAnimation";
 import { ThreeDScrollTriggerContainer, ThreeDScrollTriggerRow } from "@/components/HomePage/test/TestSection";
 import MarqueSkills from "@/components/HomePage/MarqueSkills";
+import MaskScroll from "@/components/HomePage/test/MaskScroll";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -52,8 +53,9 @@ export default function Home() {
               scrollReady={scrollReady}
               setScrollReady={setScrollReady}
             />
+             <MaskScroll />
             {/* Other Sections */}
-            <MarqueSkills/>
+            {/* <MarqueSkills/> */}
             <Experience />
             {/* <Skills /> */}
             <Projects />

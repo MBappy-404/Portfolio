@@ -135,6 +135,9 @@ body {
   font-family: "Inter", sans-serif;
 }
 
+
+
+
 /* Add to a global CSS file like index.css or blog.module.css */
 .blog-content h1 {
   @apply text-xl md:text-3xl font-bold mb-4 mt-8;
@@ -191,4 +194,5 @@ body {
 .blog-content blockquote {
   @apply border-l-4 border-gray-400 dark:border-gray-600 pl-4 italic text-gray-600 dark:text-gray-400 my-6;
 }
+
 

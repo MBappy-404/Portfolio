@@ -8,7 +8,7 @@ import {
 
 const MarqueSkills = () => {
   return (
-    <div className="my-40 ">
+    <div className="mb-40 ">
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
