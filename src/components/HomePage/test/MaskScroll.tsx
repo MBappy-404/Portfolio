@@ -4,7 +4,6 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import MarqueSkills from "../MarqueSkills";
 
-// Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
 export default function LeonardoHero() {
@@ -17,7 +16,7 @@ export default function LeonardoHero() {
 
   const targetText = "DEV_BAPPY";
 
-  // Decrypting effect on scroll into view
+  // Decrypting effect
   useEffect(() => {
     let triggered = false;
     let interval: NodeJS.Timeout | null = null;
@@ -60,80 +59,86 @@ export default function LeonardoHero() {
       if (interval) clearInterval(interval);
       if (st) st.kill();
     };
-    // eslint-disable-next-line
   }, []);
 
-  // GSAP Scroll Animations
-  useEffect(() => {
-    if (animationComplete && textRef.current && imageRef.current && contentRef.current) {
-      const ctx = gsap.context(() => {
-        // Text scaling animation - acts as mask
-        gsap.to(textRef.current, {
-          scale: 30,
-          opacity: 0,
-          ease: "power3.inOut",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top top",
-            end: "+=2000",
-            scrub: 1,
-            pin: true,
-          }
-        });
-
-        // Image scroll up after text scaling
-        gsap.to(imageRef.current, {
-          y: -300,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top+=1000 top",
-            end: "+=1000",
-            scrub: 1,
-          }
-        });
-
-        // Next content entrance
-        gsap.fromTo(contentRef.current, 
-          {
-            y: 100,
-            opacity: 0
-          },
-          {
-            y: 0,
-            opacity: 1,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: contentRef.current,
-              start: "top bottom",
-              end: "top center",
-              scrub: 1,
-            }
-          }
-        );
+ // GSAP Scroll Animations
+useEffect(() => {
+  if (animationComplete && textRef.current && imageRef.current && contentRef.current) {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "+=2000",
+          scrub: 1,
+          pin: true,
+        }
       });
 
-      return () => ctx.revert();
-    }
-  }, [animationComplete]);
+      // Text scale-out
+      tl.to(textRef.current, {
+        scale: 30,
+        opacity: 0,
+        ease: "power3.inOut",
+        duration: 1, // duration দিয়ো, না হলে scrub stretch হয়
+      }, 0);
+
+      // Image opacity late আসবে
+      tl.fromTo(imageRef.current,
+        { opacity: 0 },
+        { opacity: 1, ease: "linear", duration: 1 },
+        0.3 // একটু পরে শুরু
+      );
+
+      // আলাদা scrollTrigger দিয়ে শুধু image move
+      gsap.to(imageRef.current, {
+        y: -300,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top+=1000 top",
+          end: "+=1000",
+          scrub: 1,
+        }
+      });
+
+      // Next content entrance
+      gsap.fromTo(contentRef.current,
+        { y: 100, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: contentRef.current,
+            start: "top bottom",
+            end: "top center",
+            scrub: 1,
+          }
+        }
+      );
+    });
+
+    return () => ctx.revert();
+  }
+}, [animationComplete]);
+
+
 
   return (
     <div className="relative w-full overflow-hidden">
       {/* Hero Section */}
-      <div
-        ref={containerRef}
-        className="relative min-h-screen w-full"
-      >
+      <div ref={containerRef} className="relative min-h-screen w-full">
         {/* Background Image */}
         <div
           ref={imageRef}
-          className="fixed inset-0 w-full h-full -z-10"
+          className="fixed inset-0 w-full h-full -z-10 opacity-0" // opacity 0 initially
         >
-          {/* <img
+          <img
             src="https://upload.wikimedia.org/wikipedia/commons/b/b4/La_Belle_Ferronnière.jpg"
             alt="La Belle Ferronnière by Leonardo da Vinci"
             className="w-full h-full object-cover"
-          /> */}
+          />
           <div className="absolute inset-0 bg-black/40"></div>
         </div>
 
@@ -149,11 +154,8 @@ export default function LeonardoHero() {
       </div>
 
       {/* Next Content */}
-      <div
-        ref={contentRef}
-        className="relative z-10 opacity-0"
-      >
-        <MarqueSkills/>
+      <div ref={contentRef} className="relative z-10 opacity-0">
+        <MarqueSkills />
       </div>
     </div>
   );

@@ -1,45 +1,65 @@
 "use client";
 import Link from "next/link";
-import { ArrowRight, ExternalLink, Github } from "lucide-react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
-import { useRef } from "react";
-import { ProjectCard } from "../project-card";
-import { GlassmorphicCard } from "../glassmorphic-card";
+import { ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { useRef, useState } from "react";
 import { useAllProjectsQuery } from "../redux/features/projects/adminApi";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Projects = () => {
-  const targetRef = useRef(null);
-
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-    offset: ["start start", "end end"],
-  });
-  // Parallax effects
-
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, -200]);
-  const y3 = useTransform(scrollYProgress, [0, 1], [0, -300]);
-
-  const springY2 = useSpring(y2, { stiffness: 100, damping: 25 });
-  const springY3 = useSpring(y3, { stiffness: 100, damping: 20 });
-
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [transform, setTransform] = useState({ x: 0, y: 0 });
+  const [navigateAfter, setNavigateAfter] = useState<string | null>(null);
+  const [blurStart, setBlurStart] = useState(false);
+  const router = useRouter();
   const { data: projects } = useAllProjectsQuery([]);
-  // console.log(projects);
+
+  const handleCardClick = (id: string, e: React.MouseEvent) => {
+    if (!containerRef.current) return;
+
+    const containerRect = containerRef.current.getBoundingClientRect();
+    const cardRect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+
+    const offsetX =
+      containerRect.left + containerRect.width / 2 - (cardRect.left + cardRect.width / 2);
+    const offsetY =
+      containerRect.top + containerRect.height / 2 - (cardRect.top + cardRect.height / 2);
+
+    setTransform({ x: offsetX, y: offsetY });
+    setSelectedId(id);
+    setNavigateAfter(id); // track which page to navigate after animations
+    setBlurStart(false); // reset blur state
+  };
+
+  const resetZoom = () => {
+    setSelectedId(null);
+    setTransform({ x: 0, y: 0 });
+    setBlurStart(false);
+    setNavigateAfter(null);
+  };
 
   return (
     <div>
       <section id="projects" className="py-32 relative">
-        <div className="absolute inset-0 overflow-hidden">
-          <motion.div
-            style={{ y: springY2 }}
-            className="absolute top-1/3 left-1/3 w-96 h-96 bg-[#6c2bd9]/10 rounded-full blur-3xl"
-          />
-          <motion.div
-            style={{ y: springY3 }}
-            className="absolute bottom-1/3 right-1/3 w-96 h-96 bg-[#c957d1]/10 rounded-full blur-3xl"
-          />
-        </div>
-
-        <div className="container mx-auto px-4 relative z-10">
+        {/* Grid Container */}
+        <motion.div
+          ref={containerRef}
+          animate={{
+            scale: selectedId ? 1.3 : 1,
+            x: selectedId ? transform.x : 0,
+            y: selectedId ? transform.y : 0,
+          }}
+          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+          onAnimationComplete={() => {
+            if (selectedId && !blurStart) {
+              setBlurStart(true); // start blur after scale animation
+            }
+          }}
+          className="container mx-auto px-4 relative z-10"
+        >
+          {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -50,96 +70,104 @@ const Projects = () => {
             <span className="text-[#6c2bd9] text-sm font-medium uppercase tracking-wider">
               My Work
             </span>
-            <h2 className="text-4xl md:text-5xl font-bold">
-              Featured Projects
-            </h2>
+            <h2 className="text-4xl md:text-5xl font-bold">Featured Projects</h2>
             <div className="w-16 h-1 bg-[#6c2bd9]/50 rounded-full mt-4" />
           </motion.div>
- 
-          {/* Featured Projects */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-20">
+
+          {/* Projects Grid */}
+          <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-20 relative">
             {projects?.data?.map((project: any, index: number) => (
               <motion.div
-                key={project?._id}
-            
+                key={project._id}
+                onClick={(e) =>
+                  selectedId === project._id
+                    ? resetZoom()
+                    : handleCardClick(project._id, e)
+                }
+                className="group cursor-pointer relative overflow-hidden rounded-2xl bg-gradient-to-br from-white to-gray-100 dark:from-gray-900 dark:to-black border border-gray-200 dark:border-gray-800 shadow-xl"
+                style={{ transformOrigin: "center center" }}
+                animate={{
+                  scale: selectedId === project._id ? 2.5 : 1,
+                  zIndex: selectedId === project._id ? 30 : 1,
+                }}
+                transition={{ duration: 0.8, ease: "easeInOut" }}
               >
-                <ProjectCard project={project} index={index} />
+                {/* Image */}
+                <div className="relative aspect-video overflow-hidden">
+                  <motion.div
+                    className="relative w-full h-full"
+                    animate={{
+                      filter: blurStart && selectedId === project._id ? "blur(50px)" : "blur(0px)",
+                    }}
+                    transition={{ duration: 0.8 }}
+                    onAnimationComplete={() => {
+                      // navigate after blur animation finishes
+                      if (blurStart && navigateAfter === project._id) {
+                        router.push(`/projects/${project._id}`);
+                      }
+                    }}
+                  >
+                    <Image
+                      src={project.projectImage || "/placeholder.svg"}
+                      alt={project.projectName}
+                      fill
+                      className="object-cover"
+                      priority={index < 3}
+                    />
+                  </motion.div>
+
+                  {/* Overlay */}
+                  <motion.div
+                    className="absolute inset-0 bg-black/40"
+                    animate={{
+                      opacity: selectedId === project._id ? 1 : 0,
+                    }}
+                    transition={{ duration: 0.5 }}
+                  />
+
+                  {/* Close button */}
+                  {selectedId === project._id && (
+                    <motion.button
+                      className="absolute top-4 right-4 z-40 p-2 bg-black/50 text-white rounded-full backdrop-blur-sm"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        resetZoom();
+                      }}
+                      whileHover={{ scale: 1.1, backgroundColor: "rgba(0,0,0,0.7)" }}
+                    >
+                      ✕
+                    </motion.button>
+                  )}
+                </div>
+
+                {/* Content */}
+                <motion.div
+                  className="p-6 flex items-center gap-2"
+                  animate={{
+                    opacity: selectedId === project._id ? 0 : 1,
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <h3 className="text-2xl font-bold text-[#232336] dark:text-white">
+                    {project.projectName}
+                  </h3>
+                  <span className="text-[#6c2bd9] ml-2 opacity-100">➝</span>
+                </motion.div>
+
+                <p className="px-6 pb-6 text-gray-600 dark:text-gray-300">
+                  {project.projectDescription?.slice(0, 100)}...
+                </p>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
 
-          {/* Other Projects */}
-          {/* <motion.h3
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-2xl font-bold text-center mb-12"
-          >
-            Other Noteworthy Projects
-          </motion.h3> */}
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* {projects?.data?.map((project, index) => (
-                <motion.div
-                  key={project.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                >
-                  <GlassmorphicCard className="h-full p-6 hover:border-[#6c2bd9]/50 transition-colors group">
-                    <div className="flex flex-col h-full">
-                      <div className="flex justify-between items-start mb-4">
-                        <div className="size-12 rounded-xl bg-[#6c2bd9]/10 flex items-center justify-center">
-                          <span className="text-[#6c2bd9] text-xl font-bold">
-                            {index + 1}
-                          </span>
-                        </div>
-                        <div className="flex gap-3">
-                          <Link
-                            href={project.github}
-                            className="text-muted-[#0a0a0d] hover:text-[#6c2bd9] transition-colors"
-                          >
-                            <Github size={20} />
-                          </Link>
-                          <Link
-                            href={project.link}
-                            className="text-muted-[#0a0a0d] hover:text-[#6c2bd9] transition-colors"
-                          >
-                            <ExternalLink size={20} />
-                          </Link>
-                        </div>
-                      </div>
-
-                      <h4 className="text-xl font-bold mb-2 group-hover:text-[#6c2bd9] transition-colors">
-                        {project.title}
-                      </h4>
-                      <p className="text-muted-[#0a0a0d] mb-6">
-                        {project.description}
-                      </p>
-
-                      <div className="flex flex-wrap gap-2 mt-auto">
-                        {project.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="bg-[#6c2bd9]/10 text-[#6c2bd9] text-xs px-2 py-1 rounded-full"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </GlassmorphicCard>
-                </motion.div>
-              ))} */}
-          </div>
-
+          {/* View all */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
+            animate={{ opacity: selectedId ? 0 : 1 }}
             className="flex justify-center mt-16"
           >
             <Link
@@ -153,7 +181,7 @@ const Projects = () => {
               />
             </Link>
           </motion.div>
-        </div>
+        </motion.div>
       </section>
     </div>
   );
