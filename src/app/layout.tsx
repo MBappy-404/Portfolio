@@ -45,7 +45,7 @@ export default function RootLayout({
               <ParticleBackground />
               {children}
             </ProvidersWrapper>
-              <MusicPlayerButton />
+              {/* <MusicPlayerButton /> */}
           </div>
         </ThemeProvider>
       </body>

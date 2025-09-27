@@ -3,9 +3,10 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useRef, useState } from "react";
-import { useAllProjectsQuery } from "../redux/features/projects/adminApi";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useAllProjectsQuery } from "../redux/features/projects/adminApi";
+import { FiArrowRight } from "react-icons/fi";
 
 const Projects = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -23,14 +24,23 @@ const Projects = () => {
     const cardRect = (e.currentTarget as HTMLElement).getBoundingClientRect();
 
     const offsetX =
-      containerRect.left + containerRect.width / 2 - (cardRect.left + cardRect.width / 2);
+      containerRect.left +
+      containerRect.width / 2 -
+      (cardRect.left + cardRect.width / 2);
     const offsetY =
-      containerRect.top + containerRect.height / 2 - (cardRect.top + cardRect.height / 2);
+      containerRect.top +
+      containerRect.height / 2 -
+      (cardRect.top + cardRect.height / 2);
 
     setTransform({ x: offsetX, y: offsetY });
     setSelectedId(id);
-    setNavigateAfter(id); // track which page to navigate after animations
-    setBlurStart(false); // reset blur state
+    setNavigateAfter(id);
+    setBlurStart(false);
+
+    // 🔥 trigger blur halfway through scale (0.8s duration → 400ms delay)
+    setTimeout(() => {
+      setBlurStart(true);
+    }, 300);
   };
 
   const resetZoom = () => {
@@ -42,7 +52,7 @@ const Projects = () => {
 
   return (
     <div>
-      <section id="projects" className="py-32 relative">
+      <section id="projects" className="py-32 relative overflow-hidden">
         {/* Grid Container */}
         <motion.div
           ref={containerRef}
@@ -52,11 +62,6 @@ const Projects = () => {
             y: selectedId ? transform.y : 0,
           }}
           transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-          onAnimationComplete={() => {
-            if (selectedId && !blurStart) {
-              setBlurStart(true); // start blur after scale animation
-            }
-          }}
           className="container mx-auto px-4 relative z-10"
         >
           {/* Section Header */}
@@ -70,7 +75,9 @@ const Projects = () => {
             <span className="text-[#6c2bd9] text-sm font-medium uppercase tracking-wider">
               My Work
             </span>
-            <h2 className="text-4xl md:text-5xl font-bold">Featured Projects</h2>
+            <h2 className="text-4xl md:text-5xl font-bold">
+              Featured Projects
+            </h2>
             <div className="w-16 h-1 bg-[#6c2bd9]/50 rounded-full mt-4" />
           </motion.div>
 
@@ -97,7 +104,10 @@ const Projects = () => {
                   <motion.div
                     className="relative w-full h-full"
                     animate={{
-                      filter: blurStart && selectedId === project._id ? "blur(50px)" : "blur(0px)",
+                      filter:
+                        blurStart && selectedId === project._id
+                          ? "blur(50px)"
+                          : "blur(0px)",
                     }}
                     transition={{ duration: 0.8 }}
                     onAnimationComplete={() => {
@@ -116,42 +126,46 @@ const Projects = () => {
                     />
                   </motion.div>
 
-                  {/* Overlay */}
-                  <motion.div
-                    className="absolute inset-0 bg-black/40"
-                    animate={{
-                      opacity: selectedId === project._id ? 1 : 0,
-                    }}
-                    transition={{ duration: 0.5 }}
-                  />
+                 
 
-                  {/* Close button */}
-                  {selectedId === project._id && (
-                    <motion.button
-                      className="absolute top-4 right-4 z-40 p-2 bg-black/50 text-white rounded-full backdrop-blur-sm"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        resetZoom();
-                      }}
-                      whileHover={{ scale: 1.1, backgroundColor: "rgba(0,0,0,0.7)" }}
-                    >
-                      ✕
-                    </motion.button>
-                  )}
+                  
                 </div>
 
                 {/* Content */}
                 <motion.div
-                  className="p-6 flex items-center gap-2"
+                  className="p-6 flex flex-col items-start gap-2"
                   animate={{
                     opacity: selectedId === project._id ? 0 : 1,
                   }}
                   transition={{ duration: 0.3 }}
                 >
-                  <h3 className="text-2xl font-bold text-[#232336] dark:text-white">
-                    {project.projectName}
+                  <div className="mb-3">
+                    <span className="text-sm px-2 py-1 rounded-full bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-400 font-medium uppercase tracking-wider">
+                      {project.category || "WEB • DESIGN • DEVELOPMENT"}
+                    </span>
+                  </div>
+                  <h3 className="group relative flex items-center text-3xl font-bold text-[#232336] dark:text-white  overflow-hidden">
+                    <span
+                      className="
+                          absolute left-0 
+                          -translate-x-12 opacity-0
+                          group-hover:translate-x-0 group-hover:opacity-100
+                          transition-all duration-300 ease-out
+                        "
+                    >
+                      <FiArrowRight className="w-10 h-10" />
+                    </span>
+
+                    <span
+                      className="
+                          relative 
+                          transition-all duration-300 ease-out
+                          group-hover:ml-14
+                        "
+                    >
+                      {project.projectName}
+                    </span>
                   </h3>
-                  <span className="text-[#6c2bd9] ml-2 opacity-100">➝</span>
                 </motion.div>
 
                 <p className="px-6 pb-6 text-gray-600 dark:text-gray-300">

@@ -61,86 +61,105 @@ export default function LeonardoHero() {
     };
   }, []);
 
- // GSAP Scroll Animations
-useEffect(() => {
-  if (animationComplete && textRef.current && imageRef.current && contentRef.current) {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: "+=2000",
-          scrub: 1,
-          pin: true,
-        }
-      });
+  // GSAP Scroll Animations
+  useEffect(() => {
+    if (
+      animationComplete &&
+      textRef.current &&
+      imageRef.current &&
+      contentRef.current
+    ) {
+      const ctx = gsap.context(() => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top top",
+            end: "+=2000",
+            scrub: 1,
+            pin: true,
+          },
+        });
 
-      // Text scale-out
-      tl.to(textRef.current, {
-        scale: 30,
-        opacity: 0,
-        ease: "power3.inOut",
-        duration: 1, // duration দিয়ো, না হলে scrub stretch হয়
-      }, 0);
+        // Text scale-out
+        tl.to(
+          textRef.current,
+          {
+            scale: 30,
+            opacity: 0,
+            ease: "power3.inOut",
+            duration: 1, // duration দিয়ো, না হলে scrub stretch হয়
+          },
+          0
+        );
 
-      // Image opacity late আসবে
-      tl.fromTo(imageRef.current,
-        { opacity: 0 },
-        { opacity: 1, ease: "linear", duration: 1 },
-        0.3 // একটু পরে শুরু
-      );
+        // Image opacity late আসবে
+        tl.fromTo(
+          imageRef.current,
+          { opacity: 0 },
+          { opacity: 1, ease: "linear", duration: 1 },
+          0.3 // একটু পরে শুরু
+        );
 
-      // আলাদা scrollTrigger দিয়ে শুধু image move
-      gsap.to(imageRef.current, {
-        y: -300,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top+=1000 top",
-          end: "+=1000",
-          scrub: 1,
-        }
-      });
-
-      // Next content entrance
-      gsap.fromTo(contentRef.current,
-        { y: 100, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
+        // আলাদা scrollTrigger দিয়ে শুধু image move
+        gsap.to(imageRef.current, {
+          y: -300,
           ease: "power2.out",
           scrollTrigger: {
-            trigger: contentRef.current,
-            start: "top bottom",
-            end: "top center",
+            trigger: containerRef.current,
+            start: "top+=1000 top",
+            end: "+=1000",
             scrub: 1,
+          },
+        });
+
+        // Next content entrance
+        gsap.fromTo(
+          contentRef.current,
+          { y: 100, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: contentRef.current,
+              start: "top bottom",
+              end: "top center",
+              scrub: 1,
+            },
           }
-        }
-      );
-    });
+        );
+      });
 
-    return () => ctx.revert();
-  }
-}, [animationComplete]);
-
-
+      return () => ctx.revert();
+    }
+  }, [animationComplete]);
 
   return (
     <div className="relative w-full overflow-hidden">
       {/* Hero Section */}
       <div ref={containerRef} className="relative min-h-screen w-full">
         {/* Background Image */}
-        <div
-          ref={imageRef}
-          className="fixed inset-0 w-full h-full -z-10 opacity-0" // opacity 0 initially
-        >
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/b/b4/La_Belle_Ferronnière.jpg"
-            alt="La Belle Ferronnière by Leonardo da Vinci"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/40"></div>
-        </div>
+         
+<div
+  ref={imageRef}
+  className="fixed inset-0 h-[90vh] mt-[80px] -z-10 opacity-0" // initially hidden
+>
+  <video
+    ref={(el) => {
+      if (el && animationComplete) {
+        el.play(); // play video once decrypt + animation complete
+      }
+    }}
+    muted
+    playsInline
+    className="w-full h-full  "
+  >
+    <source src="/myVedio.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  <div className="absolute inset-0 bg-black/40"></div>
+</div>
+
 
         {/* Text Mask */}
         <div className="h-screen w-full flex justify-center items-center pointer-events-none">

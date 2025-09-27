@@ -16,6 +16,7 @@ import HelperAnimation from "@/components/HomePage/HelperAnimation";
 import { ThreeDScrollTriggerContainer, ThreeDScrollTriggerRow } from "@/components/HomePage/test/TestSection";
 import MarqueSkills from "@/components/HomePage/MarqueSkills";
 import MaskScroll from "@/components/HomePage/test/MaskScroll";
+import OverView from "@/components/HomePage/test/Overview";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -58,6 +59,7 @@ export default function Home() {
             {/* <MarqueSkills/> */}
             <Experience />
             {/* <Skills /> */}
+            <OverView/>
             <Projects />
             <PricingSection />
             <Contact />
