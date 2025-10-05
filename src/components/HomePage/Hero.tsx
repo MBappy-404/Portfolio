@@ -84,7 +84,7 @@ const HeroSection = ({ scrollYProgress }: any) => {
           </div>
 
           {/* Right image (hidden on small screens via tailwind 'hidden lg:flex') */}
-          <motion.div style={{ y: imageY }} className="relative hidden lg:flex justify-end">
+          <motion.div className="relative hidden lg:flex justify-end">
             <div className="relative w-[75%] aspect-square">
               <div className="absolute inset-0 bg-gradient-to-br from-[#6c2bd9]/20 to-[#c957d1]/20 rounded-full blur-3xl opacity-50" />
               <div className="relative z-10 w-full h-full rounded-full overflow-hidden border-4 border-[#6c2bd9]/50 shadow-2xl">

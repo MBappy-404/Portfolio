@@ -9,7 +9,7 @@ const layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
       <main className="min-h-screen">
         <Navbar />
         {children}
-        <Footer/>
+        {/* <Footer/> */}
         </main>
       </ReactLenis>
     </div>

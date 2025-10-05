@@ -13,7 +13,7 @@ import Experience from "@/components/HomePage/Experience";
 import PricingSection from "@/components/HomePage/Pricing";
 import Preloader from "@/components/Preloader";
 import HelperAnimation from "@/components/HomePage/HelperAnimation";
-import { ThreeDScrollTriggerContainer, ThreeDScrollTriggerRow } from "@/components/HomePage/test/TestSection";
+import { ThreeDScrollTriggerContainer, ThreeDScrollTriggerRow } from "@/components/HomePage/test/MarqueOnScroll";
 import MarqueSkills from "@/components/HomePage/MarqueSkills";
 import MaskScroll from "@/components/HomePage/test/MaskScroll";
 import OverView from "@/components/HomePage/test/Overview";

@@ -124,44 +124,14 @@ const IconGrid: React.FC<IconGridProps> = ({ icons, centerIcon }) => {
   );
 };
 
-// ...existing code...
+ 
 
 
 
 export default function NexusOrb({ icons , centerIcon }: any) {
   return (
     <div className="w-full flex items-center justify-center font-sans p-8 overflow-hidden">
-      <style>
-        {`
-          @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-          }
-          .animate-float {
-            animation: float 4s ease-in-out infinite;
-          }
-          @keyframes breathing-glow {
-            0% { box-shadow: 0 0 20px 0px rgba(59, 130, 246, 0.3); }
-            50% { box-shadow: 0 0 35px 10px rgba(59, 130, 246, 0.1); }
-            100% { box-shadow: 0 0 20px 0px rgba(59, 130, 246, 0.3); }
-          }
-          @keyframes breathing-glow-light {
-            0% { box-shadow: 0 0 20px 0px rgba(59, 130, 246, 0.2); }
-            50% { box-shadow: 0 0 35px 10px rgba(59, 130, 246, 0.05); }
-            100% { box-shadow: 0 0 20px 0px rgba(59, 130, 246, 0.2); }
-          }
-          .animate-breathing-glow {
-            animation: breathing-glow 3s ease-in-out infinite;
-          }
-          .dark .animate-breathing-glow {
-            animation: breathing-glow 3s ease-in-out infinite;
-          }
-          :not(.dark) .animate-breathing-glow {
-            animation: breathing-glow-light 3s ease-in-out infinite;
-          }
-        `}
-      </style>
+     
       <div className="relative z-10 container mx-auto flex items-center justify-center">
         <IconGrid icons={icons} centerIcon={centerIcon} />
       </div>

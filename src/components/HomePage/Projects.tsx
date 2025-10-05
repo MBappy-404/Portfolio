@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -11,188 +11,204 @@ import { FiArrowRight } from "react-icons/fi";
 const Projects = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [transform, setTransform] = useState({ x: 0, y: 0 });
-  const [navigateAfter, setNavigateAfter] = useState<string | null>(null);
-  const [blurStart, setBlurStart] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const router = useRouter();
   const { data: projects } = useAllProjectsQuery([]);
 
-  const handleCardClick = (id: string, e: React.MouseEvent) => {
-    if (!containerRef.current) return;
+  const handleCardClick = async (id: string, e: React.MouseEvent) => {
+    if (isAnimating || !containerRef.current) return;
 
-    const containerRect = containerRef.current.getBoundingClientRect();
-    const cardRect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    setIsAnimating(true);
+    
 
-    const offsetX =
-      containerRect.left +
-      containerRect.width / 2 -
-      (cardRect.left + cardRect.width / 2);
-    const offsetY =
-      containerRect.top +
-      containerRect.height / 2 -
-      (cardRect.top + cardRect.height / 2);
 
-    setTransform({ x: offsetX, y: offsetY });
     setSelectedId(id);
-    setNavigateAfter(id);
-    setBlurStart(false);
 
-    // 🔥 trigger blur halfway through scale (0.8s duration → 400ms delay)
+    // Navigate after animation completes
     setTimeout(() => {
-      setBlurStart(true);
-    }, 300);
+      router.push(`/projects/${id}`);
+      setIsAnimating(false);
+    }, 800);
   };
 
-  const resetZoom = () => {
-    setSelectedId(null);
-    setTransform({ x: 0, y: 0 });
-    setBlurStart(false);
-    setNavigateAfter(null);
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.1
+      }
+    }
   };
+
+ 
+
+ 
 
   return (
-    <div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-950">
       <section id="projects" className="py-32 relative overflow-hidden">
-        {/* Grid Container */}
+        {/* Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl"></div>
+        </div>
+
         <motion.div
           ref={containerRef}
-          animate={{
-            scale: selectedId ? 1.3 : 1,
-            x: selectedId ? transform.x : 0,
-            y: selectedId ? transform.y : 0,
-          }}
-          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="container mx-auto px-4 relative z-10"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
         >
           {/* Section Header */}
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            className="flex flex-col gap-4 items-center text-center mb-20"
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
-            className="flex flex-col gap-2 items-center text-center mb-16"
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <span className="text-[#6c2bd9] text-sm font-medium uppercase tracking-wider">
-              My Work
-            </span>
-            <h2 className="text-4xl md:text-5xl font-bold">
+            <motion.span 
+              className="text-[#6c2bd9] text-sm font-semibold uppercase tracking-wider bg-[#6c2bd9]/10 px-4 py-1.5 rounded-full"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              Portfolio Showcase
+            </motion.span>
+            <motion.h2 
+              className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
               Featured Projects
-            </h2>
-            <div className="w-16 h-1 bg-[#6c2bd9]/50 rounded-full mt-4" />
+            </motion.h2>
+          
+           
           </motion.div>
 
           {/* Projects Grid */}
-          <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-20 relative">
+          <motion.div 
+            className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20 relative"
+            variants={containerVariants}
+          >
             {projects?.data?.map((project: any, index: number) => (
               <motion.div
                 key={project._id}
-                onClick={(e) =>
-                  selectedId === project._id
-                    ? resetZoom()
-                    : handleCardClick(project._id, e)
-                }
-                className="group cursor-pointer relative overflow-hidden rounded-2xl bg-gradient-to-br from-white to-gray-100 dark:from-gray-900 dark:to-black border border-gray-200 dark:border-gray-800 shadow-xl"
-                style={{ transformOrigin: "center center" }}
-                animate={{
-                  scale: selectedId === project._id ? 2.5 : 1,
-                  zIndex: selectedId === project._id ? 30 : 1,
-                }}
-                transition={{ duration: 0.8, ease: "easeInOut" }}
+                // variants={cardVariants}
+                onClick={(e) => handleCardClick(project._id, e)}
+                className="group cursor-pointer relative overflow-hidden rounded-3xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-100 dark:border-gray-700 hover:shadow-3xl transition-all duration-500"
               >
-                {/* Image */}
-                <div className="relative aspect-video overflow-hidden">
-                  <motion.div
-                    className="relative w-full h-full"
-                    animate={{
-                      filter:
-                        blurStart && selectedId === project._id
-                          ? "blur(50px)"
-                          : "blur(0px)",
-                    }}
-                    transition={{ duration: 0.8 }}
-                    onAnimationComplete={() => {
-                      // navigate after blur animation finishes
-                      if (blurStart && navigateAfter === project._id) {
-                        router.push(`/projects/${project._id}`);
-                      }
-                    }}
-                  >
-                    <Image
-                      src={project.projectImage || "/placeholder.svg"}
-                      alt={project.projectName}
-                      fill
-                      className="object-cover"
-                      priority={index < 3}
-                    />
-                  </motion.div>
-
-                 
-
-                  
-                </div>
-
-                {/* Content */}
-                <motion.div
-                  className="p-6 flex flex-col items-start gap-2"
-                  animate={{
-                    opacity: selectedId === project._id ? 0 : 1,
-                  }}
-                  transition={{ duration: 0.3 }}
+                {/* Image Container */}
+                <motion.div 
+                  className="relative aspect-video overflow-hidden"
+                  // variants={imageVariants}
                 >
-                  <div className="mb-3">
-                    <span className="text-sm px-2 py-1 rounded-full bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-400 font-medium uppercase tracking-wider">
-                      {project.category || "WEB • DESIGN • DEVELOPMENT"}
-                    </span>
+                  <Image
+                    src={project.projectImage || "/placeholder.svg"}
+                    alt={project.projectName}
+                    fill
+                    className="object-cover"
+                    priority={index < 2}
+                  />
+                  
+                  {/* Overlay Gradient */}
+                  {/* <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" /> */}
+                  
+                  {/* View Project Button */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
+                    <motion.div
+                      className="bg-white/20 backdrop-blur-md border border-white/30 rounded-full px-8 py-4 text-white font-semibold flex items-center gap-3"
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                    >
+                      View Project
+                      <FiArrowRight className="w-5 h-5" />
+                    </motion.div>
                   </div>
-                  <h3 className="group relative flex items-center text-3xl font-bold text-[#232336] dark:text-white  overflow-hidden">
-                    <span
-                      className="
-                          absolute left-0 
-                          -translate-x-12 opacity-0
-                          group-hover:translate-x-0 group-hover:opacity-100
-                          transition-all duration-300 ease-out
-                        "
-                    >
-                      <FiArrowRight className="w-10 h-10" />
-                    </span>
-
-                    <span
-                      className="
-                          relative 
-                          transition-all duration-300 ease-out
-                          group-hover:ml-14
-                        "
-                    >
-                      {project.projectName}
-                    </span>
-                  </h3>
                 </motion.div>
 
-                <p className="px-6 pb-6 text-gray-600 dark:text-gray-300">
-                  {project.projectDescription?.slice(0, 100)}...
-                </p>
+                {/* Content */}
+                <div className="p-8">
+                  <div className="mb-4">
+                    <span className="text-sm font-semibold px-3 py-1.5 rounded-full bg-[#6c2bd9]/10 text-gray-400 dark:bg-[#6c2bd9]/20 uppercase tracking-wide">
+                      {project.category || "Web Development"}
+                    </span>
+                  </div>
+                  
+                  <motion.h3 
+                    className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-4 group-hover:text-[#6c2bd9] dark:group-hover:text-[#8c5af9] transition-colors duration-300 flex items-center gap-3"
+                    whileHover={{ x: 5 }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                  >
+                    {project.projectName}
+                    <motion.span
+                      className="opacity-0 -translate-x-4 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300"
+                    >
+                      <FiArrowRight className="w-6 h-6" />
+                    </motion.span>
+                  </motion.h3>
+                  
+                  <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
+                    {project.projectDescription?.slice(0, 120)}
+                    {project.projectDescription?.length > 120 && (
+                      <span className="text-[#6c2bd9] font-medium">... Read more</span>
+                    )}
+                  </p>
+
+                  {/* Tech Stack */}
+                  <div className="flex flex-wrap gap-2 mt-6">
+                    {project.technologies?.slice(0, 4).map((tech: string, i: number) => (
+                      <motion.span
+                        key={i}
+                        className="text-xs font-medium px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.4, delay: 0.1 * i }}
+                      >
+                        {tech}
+                      </motion.span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Accent Border */}
+                <div className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-[#6c2bd9] to-purple-400 group-hover:w-full transition-all duration-700 ease-out" />
               </motion.div>
             ))}
           </motion.div>
 
-          {/* View all */}
+          {/* View All Projects */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            animate={{ opacity: selectedId ? 0 : 1 }}
-            className="flex justify-center mt-16"
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex justify-center"
           >
             <Link
-              href={"/projects"}
-              className="group inline-flex items-center gap-2 text-[#6c2bd9] hover:text-[#6c2bd9]/80 font-medium"
+              href="/projects"
+              className="group relative inline-flex items-center gap-4 bg-gradient-to-r from-[#6c2bd9] to-purple-600 hover:from-[#5a1fc7] hover:to-purple-700 text-white font-semibold text-lg px-8 py-4 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 overflow-hidden"
             >
-              View All Projects
-              <ArrowRight
-                size={16}
-                className="group-hover:translate-x-1 transition-transform"
-              />
+              <span className="relative z-10">Explore All Projects</span>
+              <motion.div
+                className="relative z-10"
+                whileHover={{ x: 3 }}
+                transition={{ type: "spring", stiffness: 400 }}
+              >
+                <ArrowRight size={20} />
+              </motion.div>
+              
+              {/* Hover Effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-[#6c2bd9] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </Link>
           </motion.div>
         </motion.div>

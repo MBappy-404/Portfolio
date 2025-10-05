@@ -62,106 +62,104 @@ export default function LeonardoHero() {
   }, []);
 
   // GSAP Scroll Animations
-  useEffect(() => {
-    if (
-      animationComplete &&
-      textRef.current &&
-      imageRef.current &&
-      contentRef.current
-    ) {
-      const ctx = gsap.context(() => {
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top top",
-            end: "+=2000",
-            scrub: 1,
-            pin: true,
-          },
-        });
-
-        // Text scale-out
-        tl.to(
-          textRef.current,
-          {
-            scale: 30,
-            opacity: 0,
-            ease: "power3.inOut",
-            duration: 1, // duration দিয়ো, না হলে scrub stretch হয়
-          },
-          0
-        );
-
-        // Image opacity late আসবে
-        tl.fromTo(
-          imageRef.current,
-          { opacity: 0 },
-          { opacity: 1, ease: "linear", duration: 1 },
-          0.3 // একটু পরে শুরু
-        );
-
-        // আলাদা scrollTrigger দিয়ে শুধু image move
-        gsap.to(imageRef.current, {
-          y: -300,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top+=1000 top",
-            end: "+=1000",
-            scrub: 1,
-          },
-        });
-
-        // Next content entrance
-        gsap.fromTo(
-          contentRef.current,
-          { y: 100, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: contentRef.current,
-              start: "top bottom",
-              end: "top center",
-              scrub: 1,
-            },
-          }
-        );
+ 
+useEffect(() => {
+  if (
+    animationComplete &&
+    textRef.current &&
+    imageRef.current &&
+    contentRef.current
+  ) {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "+=3000",
+          scrub: 1.5,
+          pin: true,
+        },
       });
 
-      return () => ctx.revert();
-    }
-  }, [animationComplete]);
+      // Text scale-out
+      tl.to(
+        textRef.current,
+        {
+          scale: 25,
+          opacity: 0,
+          ease: "power2.inOut",
+          duration: 3,
+        },
+        0
+      );
+
+      // 🎯 Start video opacity increase when text scale is ~80% done
+      tl.fromTo(
+        imageRef.current,
+        { opacity: 0 },
+        { opacity: 1, ease: "power1.inOut", duration: 3 },
+        "0.8" // starts 80% into the previous animation
+      );
+
+      // Image movement
+      gsap.to(imageRef.current, {
+        y: -400,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top+=1500 top",
+          end: "+=1500",
+          scrub: 1,
+        },
+      });
+
+      // Next content fade-in
+      gsap.fromTo(
+        contentRef.current,
+        { y: 100, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: contentRef.current,
+            start: "top bottom",
+            end: "top center",
+            scrub: 1,
+          },
+        }
+      );
+    });
+
+    return () => ctx.revert();
+  }
+}, [animationComplete]);
+
 
   return (
     <div className="relative w-full overflow-hidden">
       {/* Hero Section */}
       <div ref={containerRef} className="relative min-h-screen w-full">
-        {/* Background Image */}
-         
-<div
-  ref={imageRef}
-  className="fixed inset-0 h-[90vh] mt-[80px] -z-10 opacity-0" // initially hidden
->
-  <video
-    ref={(el) => {
-      if (el && animationComplete) {
-        el.play(); // play video once decrypt + animation complete
-      }
-    }}
-    muted
-    playsInline
-    className="w-full h-full  "
-  >
-    <source src="/myVedio.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
-  <div className="absolute inset-0 bg-black/40"></div>
-</div>
+        {/* Background Video */}
+        <div
+          ref={imageRef}
+          className="fixed inset-0 h-[90vh] mt-[80px] -z-10 opacity-0"
+        >
+          <video
+            ref={(el) => {
+              if (el && animationComplete) el.play();
+            }}
+            muted
+            playsInline
+            className="w-full h-full  "
+          >
+            <source src="/myVedio.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <div className="absolute inset-0 bg-black/40"></div>
+        </div>
 
-
-        {/* Text Mask */}
+        {/* Text */}
         <div className="h-screen w-full flex justify-center items-center pointer-events-none">
           <h2
             ref={textRef}
