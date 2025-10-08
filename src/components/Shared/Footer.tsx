@@ -13,7 +13,7 @@ const Footer = () => {
             <div className="flex flex-col items-center md:items-start gap-2">
               <Link href="/" className="text-xl font-bold">
                 <span className="text-[#0a0a0d]">Dev</span>
-                <span className="text-[#6c2bd9]">Portfolio</span>
+                <span className="text-[#6c2bd9]">Bappy</span>
               </Link>
               <p className="text-sm text-muted-[#0a0a0d]">
                 © {new Date().getFullYear()} All rights reserved.

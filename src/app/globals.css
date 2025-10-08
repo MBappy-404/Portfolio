@@ -197,31 +197,4 @@ body {
 
  
 
- /* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-  overflow-x: hidden;
-}
-
-/* Hide scrollbars but maintain functionality */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-/* GSAP ScrollTrigger markers (remove in production) */
-.gsap-marker-scroller-start,
-.gsap-marker-scroller-end,
-.gsap-marker-start,
-.gsap-marker-end {
-  display: none !important;
-}
-
-/* Prevent horizontal scroll */
-body {
-  overflow-x: hidden;
-}
+ 

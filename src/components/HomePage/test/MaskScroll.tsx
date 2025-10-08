@@ -137,13 +137,13 @@ useEffect(() => {
 
 
   return (
-    <div className="relative w-full overflow-hidden">
+    <div className="relative w-full bg-black dark:bg-transparent mt-20 overflow-hidden rounded-[50px] lg:rounded-[100px]">
       {/* Hero Section */}
       <div ref={containerRef} className="relative min-h-screen w-full">
         {/* Background Video */}
         <div
           ref={imageRef}
-          className="fixed inset-0 h-[90vh] mt-[80px] -z-10 opacity-0"
+          className="fixed inset-0 h-[90vh] mt-[80px] -z-10 opacity-0    "
         >
           <video
             ref={(el) => {
@@ -151,12 +151,12 @@ useEffect(() => {
             }}
             muted
             playsInline
-            className="w-full h-full  "
+            className="w-full h-full   "
           >
             <source src="/myVedio.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
-          <div className="absolute inset-0 bg-black/40"></div>
+          {/* <div className="absolute inset-0 bg-black/40"></div> */}
         </div>
 
         {/* Text */}
@@ -171,7 +171,7 @@ useEffect(() => {
       </div>
 
       {/* Next Content */}
-      <div ref={contentRef} className="relative z-10 opacity-0">
+      <div ref={contentRef} className="relative z-10 pb-8 opacity-0">
         <MarqueSkills />
       </div>
     </div>

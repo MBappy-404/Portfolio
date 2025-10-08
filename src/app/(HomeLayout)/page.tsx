@@ -61,7 +61,7 @@ export default function Home() {
             {/* <Skills /> */}
             <OverView/>
             <Projects />
-            <PricingSection />
+            {/* <PricingSection /> */}
             <Contact />
           </motion.div>
         )}

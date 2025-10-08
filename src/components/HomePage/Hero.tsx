@@ -53,7 +53,7 @@ const HeroSection = ({ scrollYProgress }: any) => {
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
           {/* Left */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-6 lg:mt-8">
             <TextReveal text="Hi, I'm Bappy" className="text-4xl md:text-5xl lg:text-6xl font-bold" />
             <TextReveal text="Full Stack Developer & UI Enthusiast." className="text-xl md:text-2xl" />
 
@@ -76,7 +76,7 @@ const HeroSection = ({ scrollYProgress }: any) => {
               </Link>
             </div>
 
-            <div className="flex gap-6 mt-8">
+            <div className="flex gap-6 mt-5">
               <Link href="#" className="group"><Github className="size-6 text-muted-foreground group-hover:text-[#6c2bd9] transition-colors" /></Link>
               <Link href="#" className="group"><Linkedin className="size-6 text-muted-foreground group-hover:text-[#6c2bd9] transition-colors" /></Link>
               <Link href="#" className="group"><Mail className="size-6 text-muted-foreground group-hover:text-[#6c2bd9] transition-colors" /></Link>

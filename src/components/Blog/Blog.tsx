@@ -127,16 +127,16 @@ const BlogsPage = () => {
                       <div className="absolute inset-0 bg-gradient-to-t from-[#6c2bd9]/30 via-transparent to-transparent" />
                     </div>
 
-                    <div className="flex items-center gap-2 mb-4">
+                    <div className="  gap-2 mb-4">
                       <span
-                        className={`px-4 capitalize py-1 rounded-full text-sm font-semibold tracking-wide shadow bg-[#6c2bd9]/10 text-[#6c2bd9] dark:bg-[#6c2bd9]/20 dark:text-[#B18AFF]`}
+                        className={`px-4 capitalize py-2 rounded-full text-sm font-semibold tracking-wide shadow bg-[#6c2bd9]/10 text-[#6c2bd9] dark:bg-[#6c2bd9]/20 dark:text-[#B18AFF]`}
                       >
                         {blog?.category}
                       </span>
                     </div>
 
                     <h3
-                      className={`text-2xl font-bold mb-2 leading-tight ${
+                      className={`text-xl font-bold mb-2 leading-tight ${
                         theme === "dark" ? "text-white" : "text-[#1A1A24]"
                       }`}
                     >
@@ -148,7 +148,7 @@ const BlogsPage = () => {
                         theme === "dark" ? "text-[#A0A0B0]" : "text-[#6A6A7A]"
                       }`}
                     >
-                      <Clock className="h-4 w-4 text-gray-500" />
+                      <Clock className="h-4 w-4 text-gray-500 -translate-y-[2px]" />
                       <span className="font-medium">
                         {new Date(blog.createdAt).toLocaleDateString("en-US", {
                           year: "numeric",

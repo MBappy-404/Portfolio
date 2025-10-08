@@ -47,7 +47,7 @@ const Projects = () => {
  
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-950">
+    <div className="min-h-screen  ">
       <section id="projects" className="py-32 relative overflow-hidden">
         {/* Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
@@ -103,7 +103,7 @@ const Projects = () => {
                 key={project._id}
                 // variants={cardVariants}
                 onClick={(e) => handleCardClick(project._id, e)}
-                className="group cursor-pointer relative overflow-hidden rounded-3xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-100 dark:border-gray-700 hover:shadow-3xl transition-all duration-500"
+                className="group cursor-pointer relative overflow-hidden rounded-3xl bg-gray-100 dark:bg-gray-800 shadow-2xl border border-gray-100 dark:border-gray-800 hover:shadow-3xl transition-all duration-500"
               >
                 {/* Image Container */}
                 <motion.div 
@@ -181,7 +181,7 @@ const Projects = () => {
                 </div>
 
                 {/* Accent Border */}
-                <div className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-[#6c2bd9] to-purple-400 group-hover:w-full transition-all duration-700 ease-out" />
+                {/* <div className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-[#6c2bd9] to-purple-400 group-hover:w-full transition-all duration-700 ease-out" /> */}
               </motion.div>
             ))}
           </motion.div>
@@ -194,22 +194,13 @@ const Projects = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex justify-center"
           >
-            <Link
-              href="/projects"
-              className="group relative inline-flex items-center gap-4 bg-gradient-to-r from-[#6c2bd9] to-purple-600 hover:from-[#5a1fc7] hover:to-purple-700 text-white font-semibold text-lg px-8 py-4 rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 overflow-hidden"
-            >
-              <span className="relative z-10">Explore All Projects</span>
-              <motion.div
-                className="relative z-10"
-                whileHover={{ x: 3 }}
-                transition={{ type: "spring", stiffness: 400 }}
-              >
-                <ArrowRight size={20} />
-              </motion.div>
-              
-              {/* Hover Effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-[#6c2bd9] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </Link>
+            <Link href="#projects" className="group relative overflow-hidden rounded-full bg-[#6c2bd9] px-8 py-3 text-white font-medium shadow-lg">
+                <span className="relative z-10 flex items-center gap-2">
+                  Explore All Projects
+                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                </span>
+                <span className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+              </Link>
           </motion.div>
         </motion.div>
       </section>

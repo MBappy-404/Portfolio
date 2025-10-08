@@ -75,7 +75,7 @@ const Contact = () => {
             <div className="w-16 h-1 bg-[#6c2bd9]/50 rounded-full mt-4" />
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-12 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-12 max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -147,8 +147,9 @@ const Contact = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8 }}
+               
             >
-              <div className="p-5 md:p-8 border-gray-200 dark:[background:linear-gradient(45deg,#080b11,theme(colors.gray.900),#172033)_padding-box,conic-gradient(from_var(--border-angle),theme(colors.gray.600/.20)_80%,theme(colors.indigo.500)_86%,theme(colors.indigo.300)_90%,theme(colors.indigo.500)_94%,theme(colors.slate.600/.48))_border-box] rounded-2xl border dark:border-transparent animate-border">
+              <div className="p-5 md:p-8  border-gray-200 dark:[background:linear-gradient(45deg,#080b11,theme(colors.gray.900),#172033)_padding-box,conic-gradient(from_var(--border-angle),theme(colors.gray.600/.20)_80%,theme(colors.indigo.500)_86%,theme(colors.indigo.300)_90%,theme(colors.indigo.500)_94%,theme(colors.slate.600/.48))_border-box] rounded-2xl border dark:border-transparent animate-border">
                 <form className="space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
