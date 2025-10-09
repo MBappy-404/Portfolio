@@ -366,7 +366,7 @@ export const ScrollTimeline = ({
                           {event.year}
                         </p>
                       )}
-                      <h3 className="text-xl font-bold mb-1">
+                      <h3 className="text-xl font-bold ">
                         {event.title}
                       </h3>
                       {event.subtitle && (
@@ -374,7 +374,7 @@ export const ScrollTimeline = ({
                           {event.subtitle}
                         </p>
                       )}
-                      <p className="text-muted-foreground">
+                      <p className="text-muted-foreground text-base 2xl:text-lg">
                         {event.description}
                       </p>
                     </div>

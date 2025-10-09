@@ -18,13 +18,16 @@ export default function LeonardoHero() {
 
   // Decrypting effect
   useEffect(() => {
-    let triggered = false;
-    let interval: NodeJS.Timeout | null = null;
-    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let triggered = false;
+  let interval: NodeJS.Timeout | null = null;
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-    const startDecrypt = () => {
-      if (triggered) return;
-      triggered = true;
+  const startDecrypt = () => {
+    if (triggered) return;
+    triggered = true;
+    
+    // 4000ms (4 seconds) delay before starting decrypt animation
+    setTimeout(() => {
       let iteration = 0;
       interval = setInterval(() => {
         setDisplayText(() =>
@@ -44,22 +47,23 @@ export default function LeonardoHero() {
           setAnimationComplete(true);
         }
       }, 100);
-    };
+    }, 400); // 4000ms delay
+  };
 
-    let st: ScrollTrigger | undefined;
-    if (containerRef.current) {
-      st = ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: "top 80%",
-        once: true,
-        onEnter: startDecrypt,
-      });
-    }
-    return () => {
-      if (interval) clearInterval(interval);
-      if (st) st.kill();
-    };
-  }, []);
+  let st: ScrollTrigger | undefined;
+  if (containerRef.current) {
+    st = ScrollTrigger.create({
+      trigger: containerRef.current,
+      start: "top 80%",
+      once: true,
+      onEnter: startDecrypt,
+    });
+  }
+  return () => {
+    if (interval) clearInterval(interval);
+    if (st) st.kill();
+  };
+}, []);
 
   // GSAP Scroll Animations
  

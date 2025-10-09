@@ -55,7 +55,7 @@ const Navbar = () => {
       {/* Header */}
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-[999] transition-all duration-500",
+          "fixed top-0 left-0 right-0 z-[888] transition-all duration-500",
           scrollY > 50
             ? "bg-background/80 backdrop-blur-md border-b border-border/40 py-4"
             : "py-4"

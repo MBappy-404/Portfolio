@@ -77,8 +77,8 @@ const HeroSection = ({ scrollYProgress }: any) => {
             </div>
 
             <div className="flex gap-6 mt-5">
-              <Link href="#" className="group"><Github className="size-6 text-muted-foreground group-hover:text-[#6c2bd9] transition-colors" /></Link>
-              <Link href="#" className="group"><Linkedin className="size-6 text-muted-foreground group-hover:text-[#6c2bd9] transition-colors" /></Link>
+              <Link href="https://github.com/MBappy-404" target="_blank" className="group"><Github className="size-6 text-muted-foreground group-hover:text-[#6c2bd9] transition-colors" /></Link>
+              <Link href="https://www.linkedin.com/in/dev-saroarjahan" target="_blank" className="group"><Linkedin className="size-6 text-muted-foreground group-hover:text-[#6c2bd9] transition-colors" /></Link>
               <Link href="#" className="group"><Mail className="size-6 text-muted-foreground group-hover:text-[#6c2bd9] transition-colors" /></Link>
             </div>
           </div>

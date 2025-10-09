@@ -82,7 +82,7 @@ const Projects = () => {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-950">
+    <div className="min-h-screen">
       <section id="projects" className="py-32 relative overflow-hidden">
         {/* Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
@@ -263,8 +263,8 @@ const Projects = () => {
                     </div>
                   </div>
 
-                  {/* Accent Border */}
-                  <div className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-[#6c2bd9] to-purple-400 group-hover:w-full transition-all duration-700 ease-out" />
+                   
+                  
                   
                   {/* Glow Effect */}
                   <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-[#6c2bd9]/10 to-purple-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

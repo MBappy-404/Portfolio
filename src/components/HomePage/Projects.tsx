@@ -194,7 +194,7 @@ const Projects = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex justify-center"
           >
-            <Link href="#projects" className="group relative overflow-hidden rounded-full bg-[#6c2bd9] px-8 py-3 text-white font-medium shadow-lg">
+            <Link href="projects" className="group relative overflow-hidden rounded-full bg-[#6c2bd9] px-8 py-3 text-white font-medium shadow-lg">
                 <span className="relative z-10 flex items-center gap-2">
                   Explore All Projects
                   <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />

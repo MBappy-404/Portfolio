@@ -33,7 +33,7 @@ const MarqueSkills = () => {
             <span className="text-[#61DAFB] text-sm md:text-base font-bold">React</span>
           </div>
           <div className="flex items-center mx-5 justify-center w-20 h-20 md:w-28 md:h-28 rounded-2xl shadow-sm bg-gray-900/80 border border-gray-800/70">
-            <span className="text-gray-200  text-sm md:text-basefont-bold">Next.js</span>
+            <span className="text-gray-200  text-sm md:text-base font-bold">Next.js</span>
           </div>
           <div className="flex items-center mx-5 justify-center w-20 h-20 md:w-28 md:h-28 rounded-2xl shadow-sm bg-[#38BDF8]/10 border border-[#38BDF8]/40">
             <span className="text-[#38BDF8] text-sm md:text-base font-bold">Tailwind</span>
@@ -53,7 +53,7 @@ const MarqueSkills = () => {
             <span className="text-[#68A063] text-sm md:text-base font-bold">Node.js</span>
           </div>
           <div className="flex items-center mx-5 justify-center w-20 h-20 md:w-28 md:h-28 rounded-2xl shadow-sm bg-gray-900/80 border border-gray-800/70">
-            <span className="text-gray-200  text-sm md:text-basefont-bold">Express</span>
+            <span className="text-gray-200  text-sm md:text-base font-bold">Express</span>
           </div>
           <div className="flex items-center mx-5 justify-center w-20 h-20 md:w-28 md:h-28 rounded-2xl shadow-sm bg-[#47A248]/10 border border-[#47A248]/40">
             <span className="text-[#47A248] text-sm md:text-base font-bold">MongoDB</span>
@@ -81,7 +81,7 @@ const MarqueSkills = () => {
             <span className="text-[#007ACC] text-sm md:text-base font-bold">VS Code</span>
           </div>
           <div className="flex items-center mx-5 justify-center w-20 h-20 md:w-28 md:h-28 rounded-2xl shadow-sm bg-gray-900/80 border border-gray-800/70">
-            <span className="text-gray-200  text-sm md:text-basefont-bold">Vercel</span>
+            <span className="text-gray-200  text-sm md:text-base font-bold">Vercel</span>
           </div>
           <div className="flex items-center mx-5 justify-center w-20 h-20 md:w-28 md:h-28 rounded-2xl shadow-sm bg-[#FF6C37]/10 border border-[#FF6C37]/40">
             <span className="text-[#FF6C37] text-sm md:text-base font-bold">Postman</span>
