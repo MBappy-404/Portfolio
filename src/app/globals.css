@@ -197,4 +197,68 @@ body {
 
  
 
- 
+ /* globals.css বা আপনার global CSS file এ */
+/* .card-inner {
+  border-radius: 1.25rem;
+  border-bottom-right-radius: 0;
+  overflow: hidden;
+}
+
+.box {
+  border-radius: 1.25rem;
+  overflow: hidden;
+}
+
+.icon {
+  border-top-left-radius: 50%;
+}
+
+.icon::before {
+  content: "";
+  position: absolute;
+  bottom: 6px;
+  left: -20px;
+  background: transparent;
+  width: 20px;
+  height: 20px;
+  border-bottom-right-radius: 20px;
+  box-shadow: 5px 5px 0 5px #fff;
+}
+
+.icon::after {
+  content: "";
+  position: absolute;
+  top: -20px;
+  right: 6px;
+  background: transparent;
+  width: 20px;
+  height: 20px;
+  border-bottom-right-radius: 20px;
+  box-shadow: 5px 5px 0 5px var(--clr);
+}
+
+.dark .icon::before {
+  box-shadow: 5px 5px 0 5px #1f2937;
+}
+
+.imgBox img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.iconBox {
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s;
+}
+
+.icon:hover .iconBox {
+  transform: scale(1.1);
+}
+
+.content h3 {
+  font-size: clamp(1.5rem, 1.3909rem + 0.4364vw, 1.8rem);
+} */

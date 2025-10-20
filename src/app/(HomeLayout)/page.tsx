@@ -22,28 +22,28 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [scrollReady, setScrollReady] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      const LocomotiveScroll = (await import("locomotive-scroll")).default;
-      const locomotiveScroll = new LocomotiveScroll();
+  // useEffect(() => {
+  //   (async () => {
+  //     const LocomotiveScroll = (await import("locomotive-scroll")).default;
+  //     const locomotiveScroll = new LocomotiveScroll();
 
-      setTimeout(() => {
-        setIsLoading(false);
-        setScrollReady(true);
-        document.body.style.cursor = "default";
-        window.scrollTo(0, 0);
-      }, 2000);
-    })();
-  }, []);
+  //     setTimeout(() => {
+  //       setIsLoading(false);
+  //       setScrollReady(true);
+  //       document.body.style.cursor = "default";
+  //       window.scrollTo(0, 0);
+  //     }, 2000);
+  //   })();
+  // }, []);
 
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-background via-background to-background/90 overflow-hidden">
-      {/* <ParticleBackground /> */}
+      <ParticleBackground />
 
       <AnimatePresence mode="wait">
-        {isLoading ? (
+        {/* {isLoading ? (
           <Preloader key="preloader" />
-        ) : (
+        ) : (  */}
           <motion.div
             key="content"
             initial={{ opacity: 0 }}
@@ -64,8 +64,8 @@ export default function Home() {
             {/* <PricingSection /> */}
             <Contact />
           </motion.div>
-        )}
-      </AnimatePresence>
+         {/* )}  */}
+     </AnimatePresence>
     </div>
   );
 }

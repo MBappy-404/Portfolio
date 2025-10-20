@@ -15,7 +15,8 @@ const HelperAnimation = ({
 
   // we create scroll only when ready
   const { scrollYProgress } = useScroll({
-    target: scrollReady ? targetRef : undefined,
+    // target: scrollReady ? targetRef : undefined,
+    target: targetRef,
     offset: ["start start", "end end"],
   });
   return (

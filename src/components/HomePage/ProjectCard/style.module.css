@@ -1,11 +1,21 @@
-.cardContainer{
+.cardsWrapper {
+  /* the wrapper must be tall enough to allow scrolling */
+  height: 500vh; /* if you have 5 cards for example */
+  position: relative;
+}
+
+.cardContainer {
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   position: sticky;
-  top: 0px;
-  .card{
+  top: 0;
+  
+  /* each card should have its own z-index so they stack properly */
+  z-index: 1;
+
+  .card {
     display: flex;
     flex-direction: column;
     position: relative;
@@ -13,35 +23,42 @@
     height: 500px;
     width: 1000px;
     border-radius: 25px;
-    padding:50px;
+    padding: 50px;
     transform-origin: top;
-    h2{
+    background: white; /* make sure background visible */
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+
+    h2 {
       text-align: center;
-      margin: 0px;
+      margin: 0;
       font-size: 28px;
     }
-    .body{
+
+    .body {
       display: flex;
       height: 100%;
       margin-top: 50px;
       gap: 50px;
 
-      .description{
+      .description {
         width: 40%;
         position: relative;
         top: 10%;
-        p{
+
+        p {
           font-size: 16px;
-          &::first-letter{
+          &::first-letter {
             font-size: 28px;
             font-family: 'Title';
           }
         }
-        span{
+
+        span {
           display: flex;
           align-items: center;
           gap: 5px;
-          a{
+
+          a {
             font-size: 12px;
             text-decoration: underline;
             cursor: pointer;
@@ -49,17 +66,19 @@
         }
       }
 
-      .imageContainer{
+      .imageContainer {
         position: relative;
         width: 60%;
         height: 100%;
         border-radius: 25px;
         overflow: hidden;
-        .inner{
+
+        .inner {
           width: 100%;
           height: 100%;
         }
-        img{
+
+        img {
           object-fit: cover;
         }
       }
