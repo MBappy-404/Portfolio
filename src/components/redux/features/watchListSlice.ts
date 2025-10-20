@@ -1,9 +1,9 @@
-import { Movie } from "@/types";
+ 
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 interface IinitialState {
-  movieList: Movie[];
+  movieList: any[];
 }
 const initialState: IinitialState = {
   movieList: [],
