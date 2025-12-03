@@ -1,31 +1,17 @@
 "use client";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, ExternalLink, Github, Sparkles, Eye, Calendar, Clock, Users } from "lucide-react";
+import { motion } from "framer-motion";
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useAllProjectsQuery } from "../redux/features/projects/adminApi";
-import { FiArrowRight } from "react-icons/fi";
 
 const Projects = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [hoveredProject, setHoveredProject] = useState<string | null>(null);
   const router = useRouter();
   const { data: projects } = useAllProjectsQuery([]);
-
-  const handleCardClick = async (id: string, e: React.MouseEvent) => {
-    if (isAnimating || !containerRef.current) return;
-
-    setIsAnimating(true);
-    setSelectedId(id);
-
-    setTimeout(() => {
-      router.push(`/projects/${id}`);
-      setIsAnimating(false);
-    }, 800);
-  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -38,290 +24,232 @@ const Projects = () => {
     }
   };
 
+  const techColors = [
+    { bg: "rgba(147, 51, 234, 0.08)", text: "rgb(147, 51, 234)", border: "rgba(147, 51, 234, 0.2)" },
+    { bg: "rgba(59, 130, 246, 0.08)", text: "rgb(59, 130, 246)", border: "rgba(59, 130, 246, 0.2)" },
+    { bg: "rgba(34, 197, 94, 0.08)", text: "rgb(34, 197, 94)", border: "rgba(34, 197, 94, 0.2)" },
+  ];
+
+  const projectTypes = ["Web Application", "Mobile App", "E-commerce", "Dashboard", "API Service"];
+
   return (
-    <div className="min-h-screen">
-      <section id="projects" className="py-32 relative overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl"></div>
+    <section id="projects" className="py-32 relative bg-gray-50 dark:bg-gray-950 overflow-hidden">
+      {/* Subtle Background Pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 2px 2px, #6c2bd9 1px, transparent 0)`,
+          backgroundSize: '60px 60px',
+        }} />
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
+        {/* Professional Section Header */}
+        <div className="text-center mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="inline-flex items-center gap-2 mb-6"
+          >
+            <div className="w-12 h-px bg-gradient-to-r from-transparent via-[#6c2bd9] to-transparent"></div>
+            <span className="text-sm font-medium text-[#6c2bd9] uppercase tracking-widest">
+              Portfolio
+            </span>
+            <div className="w-12 h-px bg-gradient-to-r from-transparent via-[#6c2bd9] to-transparent"></div>
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6"
+          >
+            Selected
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#6c2bd9] to-[#9333ea]">
+              Works
+            </span>
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
+          >
+            A collection of professional projects showcasing technical expertise, innovative solutions, and client success stories
+          </motion.p>
         </div>
 
+        {/* Projects Grid with Professional Layout */}
         <motion.div
           ref={containerRef}
-          className="container mx-auto px-4 relative z-10"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
         >
-          {/* Section Header */}
-          <motion.div
-            className="flex flex-col gap-4 items-center text-center mb-20"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <motion.span 
-              className="text-[#6c2bd9] text-sm font-semibold uppercase tracking-wider bg-[#6c2bd9]/10 px-4 py-1.5 rounded-full"
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
-              Portfolio Showcase
-            </motion.span>
-            <motion.h2 
-              className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              Featured Projects
-            </motion.h2>
-          </motion.div>
+          {projects?.data?.slice(0, 4).map((project: any, index: number) => {
+            const isHovered = hoveredProject === project._id;
+            const projectType = projectTypes[index % projectTypes.length];
 
-          {/* Projects Grid with Corner Design */}
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mb-20 relative"
-            variants={containerVariants}
-          >
-            {projects?.data?.map((project: any, index: number) => {
-                const lightModeColor = "#ffffff";
-              const darkModeColor = "#0a0a0a";
-              
-              return (
-                <motion.div
-                  key={project._id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="group cursor-pointer"
-                  onClick={(e) => handleCardClick(project._id, e)}
-                >
-                  {/* Card Container */}
-                  <div className="      transition-all duration-300">
+            return (
+              <motion.article
+                key={project._id}
+                variants={{
+                  hidden: { opacity: 0, y: 40 },
+                  visible: { opacity: 1, y: 0 }
+                }}
+                whileHover={{ y: -4 }}
+                onMouseEnter={() => setHoveredProject(project._id)}
+                onMouseLeave={() => setHoveredProject(null)}
+                className="group cursor-pointer"
+                onClick={() => router.push(`/projects/${project._id}`)}
+              >
+                {/* Project Card */}
+                <div className="relative bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl transition-all duration-300">
+                  {/* Image Container */}
+                  <div className="relative  h-72 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900">
+                    <Image
+                      src={project.projectImage || "/placeholder.svg"}
+                      alt={project.projectName}
+                      fill
+                      className=" transition-transform duration-700 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
                     
-                    {/* Card Inner with CSS Styled Corner */}
-                    <div 
-                      className="card-inner bg-white dark:bg-[#0a0a0a] relative h-72   overflow-hidden"
-                      style={{ 
-                        '--clr': lightModeColor,
-                        '--clr-dark': darkModeColor,
-                         
-                      } as React.CSSProperties}
-                    >
-                      <div className="box w-full h-full    overflow-hidden relative">
-                        
-                        {/* Image Box */}
-                        <div className="imgBox absolute inset-0 ">
-                          <Image
-                            src={project.projectImage || "/placeholder.svg"}
-                            alt={project.projectName}
-                            fill
-                            className="object-cover"
-                            priority={index < 2}
-                          />
-                        </div>
-                        
-                        {/* Icon with CSS Styled Corner */}
-                        <div className="icon absolute bottom-[-6px] right-[-6px] w-24 h-24">
-                          
-                          {/* Icon Box */}
-                          <div 
-                            className="iconBox absolute inset-2.5 bg-gray-700 dark:bg-gray-600 rounded-full flex items-center justify-center group-hover:scale-90 transition-transform duration-300"
+                    {/* Overlay Gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                    
+                    {/* Project Type Badge */}
+                    <div className="absolute top-6 left-6">
+                      <span className="px-3 py-1.5 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm text-xs font-semibold text-gray-700 dark:text-gray-300 rounded-full border border-gray-200 dark:border-gray-700">
+                        {projectType}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Content Section */}
+                  <div className="p-8">
+                    {/* Project Header */}
+                    <div className="mb-6">
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="flex-1">
+                          <motion.h3 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="text-2xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-[#6c2bd9] transition-colors"
                           >
-                            <FiArrowRight className="w-6 h-6 text-white" />
-                          </div>
+                            {project.projectName}
+                          </motion.h3>
+                          <p className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2">
+                            <Calendar className="w-4 h-4" />
+                            <span>2024</span>
+                            <span className="mx-2">•</span>
+                            <Clock className="w-4 h-4" />
+                            <span>3 months</span>
+                          </p>
                         </div>
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-6 line-clamp-3">
+                        {project.projectDescription?.slice(0, 120)}
+                        {project.projectDescription?.length > 120 && "..."}
+                      </p>
+                    </div>
+
+                    {/* Technologies Stack */}
+                    <div className="mb-8">
+                      <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
+                        Technologies
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {project.technologies?.slice(0, 4).map((tech: string, techIndex: number) => {
+                          const color = techColors[techIndex % techColors.length];
+                          return (
+                            <span
+                              key={techIndex}
+                              className="px-3 py-1.5 text-xs font-medium rounded-lg border transition-all duration-300 hover:scale-105"
+                              style={{
+                                backgroundColor: color.bg,
+                                color: color.text,
+                                borderColor: color.border
+                              }}
+                            >
+                              {tech}
+                            </span>
+                          );
+                        })}
+                        {project.technologies?.length > 4 && (
+                          <span className="px-3 py-1.5 text-xs font-medium text-gray-500 dark:text-gray-400">
+                            +{project.technologies.length - 4} more
+                          </span>
+                        )}
                       </div>
                     </div>
 
-                    {/* Content */}
-                    <div className="content p-6">
-                      <h3 className="project-title text-2xl font-bold text-gray-900 dark:text-white mb-4 capitalize">
-                        {project.projectName}
-                      </h3>
-                      
-                      <p className="project-description text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                        {project.projectDescription?.slice(0, 100)}
-                        {project.projectDescription?.length > 100 && (
-                          <span className="text-[#6c2bd9] font-medium">... Read more</span>
-                        )}
-                      </p>
+                    {/* Project Footer */}
+                    <div className="flex items-center justify-between pt-6 border-t border-gray-100 dark:border-gray-800">
+                      {/* Stats */}
+                      {/* <div className="flex items-center gap-6">
+                        <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                          <Eye className="w-4 h-4" />
+                          <span>2.5k+ views</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                          <Users className="w-4 h-4" />
+                          <span>Team of 4</span>
+                        </div>
+                      </div> */}
 
-                      {/* Tags */}
-                      {/* <ul className="tags-list">
-                        {project.technologies?.slice(0, 3).map((tech: string, i: number) => {
-                          const tagColors = ["#d3b19a", "#70b3b1", "#d05fa2"];
-                          const tagColor = tagColors[i % tagColors.length];
-                          
-                          return (
-                            <li
-                              key={i}
-                              style={{ 
-                                '--clr-tag': tagColor
-                              } as React.CSSProperties}
-                              className={`tag-item ${i === 0 ? 'branding' : i === 1 ? 'packaging' : 'marketing'}`}
-                            >
-                              {tech}
-                            </li>
-                          );
-                        })}
-                      </ul> */}
+                      {/* Action Buttons */}
+                      <div className="flex items-center gap-3">
+                        {project.frontendGitHubLink && (
+                          <motion.a
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            href={project.frontendGitHubLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                          >
+                            <Github className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+                          </motion.a>
+                        )}
+                        
+                        {project.liveProjectLink && (
+                          <motion.a
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            href={project.liveProjectLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#6c2bd9] to-[#9333ea] text-white rounded-lg font-medium hover:opacity-90 transition-opacity"
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                            <span className="text-sm">Live Demo</span>
+                          </motion.a>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </motion.div>
-              );
-            })}
-          </motion.div>
 
-          {/* View All Projects */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex justify-center"
-          >
-            <Link href="projects" className="group relative overflow-hidden rounded-full bg-[#6c2bd9] px-8 py-3 text-white font-medium shadow-lg">
-              <span className="relative z-10 flex items-center gap-2">
-                Explore All Projects
-                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-              </span>
-              <span className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-            </Link>
-          </motion.div>
+                  
+                </div>
+              </motion.article>
+            );
+          })}
         </motion.div>
 
-        {/* CSS Styles for Corner Design - Fixed for Dark/Light Mode */}
-        <style jsx global>{`
-         .card-inner {
-            border-radius: 1.25rem;
-            border-bottom-right-radius: 50px;
-            overflow: hidden;
-            background: white;
-            border: none;  
-          }
-
-          .dark .card-inner {
-            background: #0a0a0a;  
-          }
-
-          .box {
-            border-radius: 1.25rem;
-            overflow: hidden;
-          }
-
-          .icon {
-            border-top-left-radius: 50%;
-            background:  white;
-          }
-        
-           .dark .icon{
-           background: #0a0a0a;
-           }
-
-          .icon::before {
-            content: "";
-            position: absolute;
-            bottom: 6px;
-            left: -20px;
-            width: 20px;
-            height: 20px;
-            border-bottom-right-radius: 20px;
-            background: transparent;
-            box-shadow: 5px 5px 0 5px #fff;
-          }
-
-          .icon::after {
-            content: "";
-            position: absolute;
-            top: -20px;
-            right: 6px;
-            width: 20px;
-            height: 20px;
-            background: transparent;
-            border-bottom-right-radius: 20px;
-            box-shadow: 5px 5px 0 5px var(--clr);
-          }
-
-          /* Dark mode styles */
-          .dark .icon::before {
-            box-shadow: 5px 5px 0 5px #0a0a0a;
-          }
-
-          .dark .icon::after {
-            box-shadow: 5px 5px 0 5px #0a0a0a;
-          }
-
-          .imgBox img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-          }
-
-          .iconBox {
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: 0.3s;
-          }
-
-          .icon:hover .iconBox {
-            transform: scale(1.1);
-          }
-
-          .tags-list {
-            margin: 0;
-            padding: 0;
-            list-style: none;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-          }
-
-          .tag-item {
-            text-transform: uppercase;
-            background: var(--clr-tag);
-            color: #282828;
-            font-weight: 700;
-            font-size: 0.8rem;
-            padding: 6px 10px;
-            border-radius: 3px;
-          }
-
-          .branding {
-            color: #5c4038;
-          }
-
-          .packaging {
-            color: #2a5554;
-          }
-
-          .marketing {
-            color: #6d2f54;
-          }
-
-          .project-title {
-            font-size: clamp(1.5rem, 1.3909rem + 0.4364vw, 1.8rem);
-          }
-
-          .project-description {
-            margin: 10px 0 20px;
-            color: #565656;
-          }
-
-          .dark .project-description {
-            color: #a0a0a0;
-          }
-        `}</style>
-      </section>
-    </div>
+    
+      </div>
+    </section>
   );
 };
 

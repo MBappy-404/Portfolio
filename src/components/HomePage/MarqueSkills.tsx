@@ -8,7 +8,7 @@ import {
 
 const MarqueSkills = () => {
   return (
-    <div className="mb-20 mt-10 ">
+    <div className="my-20" >
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -20,7 +20,7 @@ const MarqueSkills = () => {
           <span className="text-[#6c2bd9]   text-sm font-medium uppercase tracking-wider">
             My Expertise
           </span>
-          <h2 className="text-4xl text-white md:text-5xl font-bold">
+          <h2 className="text-4xl text-black  dark:text-white md:text-5xl font-bold">
             Technical Proficiency
           </h2>
           <div className="w-16 h-1 bg-[#6c2bd9]/50 rounded-full mt-4" />

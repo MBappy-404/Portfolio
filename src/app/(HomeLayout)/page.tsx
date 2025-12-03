@@ -13,7 +13,10 @@ import Experience from "@/components/HomePage/Experience";
 import PricingSection from "@/components/HomePage/Pricing";
 import Preloader from "@/components/Preloader";
 import HelperAnimation from "@/components/HomePage/HelperAnimation";
-import { ThreeDScrollTriggerContainer, ThreeDScrollTriggerRow } from "@/components/HomePage/test/MarqueOnScroll";
+import {
+  ThreeDScrollTriggerContainer,
+  ThreeDScrollTriggerRow,
+} from "@/components/HomePage/test/MarqueOnScroll";
 import MarqueSkills from "@/components/HomePage/MarqueSkills";
 import MaskScroll from "@/components/HomePage/test/MaskScroll";
 import OverView from "@/components/HomePage/test/Overview";
@@ -22,28 +25,28 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [scrollReady, setScrollReady] = useState(false);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const LocomotiveScroll = (await import("locomotive-scroll")).default;
-  //     const locomotiveScroll = new LocomotiveScroll();
+  useEffect(() => {
+    (async () => {
+      const LocomotiveScroll = (await import("locomotive-scroll")).default;
+      const locomotiveScroll = new LocomotiveScroll();
 
-  //     setTimeout(() => {
-  //       setIsLoading(false);
-  //       setScrollReady(true);
-  //       document.body.style.cursor = "default";
-  //       window.scrollTo(0, 0);
-  //     }, 2000);
-  //   })();
-  // }, []);
+      setTimeout(() => {
+        setIsLoading(false);
+        setScrollReady(true);
+        document.body.style.cursor = "default";
+        window.scrollTo(0, 0);
+      }, 2000);
+    })();
+  }, []);
 
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-background via-background to-background/90 overflow-hidden">
       <ParticleBackground />
 
       <AnimatePresence mode="wait">
-        {/* {isLoading ? (
+        {isLoading ? (
           <Preloader key="preloader" />
-        ) : (  */}
+        ) : (
           <motion.div
             key="content"
             initial={{ opacity: 0 }}
@@ -54,18 +57,19 @@ export default function Home() {
               scrollReady={scrollReady}
               setScrollReady={setScrollReady}
             />
-             <MaskScroll />
+            {/* <MaskScroll /> */}
             {/* Other Sections */}
-            {/* <MarqueSkills/> */}
+
             <Experience />
+            <MarqueSkills />
             {/* <Skills /> */}
-            <OverView/>
+            <OverView />
             <Projects />
             {/* <PricingSection /> */}
             <Contact />
           </motion.div>
-         {/* )}  */}
-     </AnimatePresence>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

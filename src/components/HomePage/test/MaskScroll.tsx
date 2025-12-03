@@ -130,7 +130,7 @@ export default function LeonardoHero() {
 
       {/* Next Content */}
       <div ref={contentRef} className="relative z-10 pb-8 opacity-0">
-        <MarqueSkills />
+        {/* <MarqueSkills /> */}
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ import {
   MotionValue,
 } from "framer-motion";
 import { cn } from "../lib/utils";
- 
+
 import { Calendar } from "lucide-react";
 
 export interface TimelineEvent {
@@ -42,8 +42,6 @@ export interface ScrollTimelineProps {
   darkMode?: boolean;
   smoothScroll?: boolean;
 }
-
-
 
 export const ScrollTimeline = ({
   events,
@@ -162,7 +160,11 @@ export const ScrollTimeline = ({
   };
 
   const getCardClasses = (index: number) => {
-  const baseClasses = `relative  border-[3px] z-30 rounded-xl ${index === activeIndex ? " border-[#8b5cf4] shadow-2xl shadow-[#8c5cf4b0]" : "border-gray-300 dark:border-gray-700 dark:hover:border-gray-600 hover:border-gray-400"} transition-all duration-300`;
+    const baseClasses = `relative  border-[3px] z-30 rounded-xl ${
+      index === activeIndex
+        ? " border-[#8b5cf4] shadow-2xl shadow-[#8c5cf4b0]"
+        : "border-gray-300 dark:border-gray-700 dark:hover:border-gray-600 hover:border-gray-400"
+    } transition-all duration-300`;
     const variantClasses = {
       default: "bg-card border-[3px] shadow-2xl",
       elevated: "bg-card border border-border/40 ",
@@ -205,14 +207,24 @@ export const ScrollTimeline = ({
         className
       )}
     >
-      <div className="text-center py-16 px-4">
-        <h2 className="text-3xl md:text-5xl font-bold mb-4">{title}</h2>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          {subtitle}
-        </p>
-      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8 }}
+        className="flex flex-col gap-2 items-center text-center py-20"
+      >
+        <span className="text-[#6c2bd9]   text-sm font-medium uppercase tracking-wider">
+           My Coding journey
+        </span>
+        <h2 className="text-4xl text-black  dark:text-white md:text-5xl font-bold">
+         
+          Experience
+        </h2>
+        <div className="w-16 h-1 bg-[#6c2bd9]/50 rounded-full mt-4" />
+      </motion.div>
 
-      <div className="relative max-w-6xl mx-auto px-4 pb-24">
+      <div className="relative max-w-6xl mx-auto px-4 pb-5">
         <div className="relative mx-auto">
           <div
             className={cn(getConnectorClasses(), "h-full absolute top-0 z-10")}
@@ -230,8 +242,7 @@ export const ScrollTimeline = ({
                   width: progressLineWidth,
                   left: "50%",
                   transform: "translateX(-50%)",
-                  borderRadius:
-                    progressLineCap === "round" ? "9999px" : "0px",
+                  borderRadius: progressLineCap === "round" ? "9999px" : "0px",
                   background: `linear-gradient(to bottom, #22d3ee, #6366f1, #a855f7)`,
                   // Enhanced shadow for a constant glow effect along the path
                   boxShadow: `
@@ -289,17 +300,17 @@ export const ScrollTimeline = ({
                   ref={(el) => {
                     timelineRefs.current[index] = el;
                   }}
-                    className={cn(
-                      "relative flex items-center mb-36 py-4",
-                      "flex-col lg:flex-row",
-                      cardAlignment === "alternating"
-                        ? index % 2 === 0
-                          ? "lg:justify-start"
-                          : "lg:flex-row-reverse lg:justify-start"
-                        : cardAlignment === "left"
+                  className={cn(
+                    "relative flex items-center mb-36 py-4",
+                    "flex-col lg:flex-row",
+                    cardAlignment === "alternating"
+                      ? index % 2 === 0
                         ? "lg:justify-start"
                         : "lg:flex-row-reverse lg:justify-start"
-                    )}
+                      : cardAlignment === "left"
+                      ? "lg:justify-start"
+                      : "lg:flex-row-reverse lg:justify-start"
+                  )}
                 >
                   <div
                     className={cn(
@@ -355,7 +366,9 @@ export const ScrollTimeline = ({
                           <span
                             className={cn(
                               "text-sm font-bold",
-                              event.color ? `text-${event.color}` : "text-primary"
+                              event.color
+                                ? `text-${event.color}`
+                                : "text-primary"
                             )}
                           >
                             {event.year}
@@ -366,9 +379,7 @@ export const ScrollTimeline = ({
                           {event.year}
                         </p>
                       )}
-                      <h3 className="text-xl font-bold ">
-                        {event.title}
-                      </h3>
+                      <h3 className="text-xl font-bold ">{event.title}</h3>
                       {event.subtitle && (
                         <p className="text-muted-foreground font-medium mb-2">
                           {event.subtitle}
