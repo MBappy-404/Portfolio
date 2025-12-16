@@ -33,7 +33,6 @@ const HeroSection = ({ scrollYProgress }: any) => {
 
   // Decide what to pass to style: motion value (for desktop after mount) or static number
   const scale = mounted && isMobile === false ? scaleTransform : 1;
-  const imageY = mounted ? springY1 : 0;
   const y2 = mounted && isMobile === false ? y2Transform : 0;
 
   return (
