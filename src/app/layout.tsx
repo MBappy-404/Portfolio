@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Orbitron } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import ProvidersWrapper from "@/providers/ProvidersWrapper";
@@ -19,7 +19,10 @@ const geistMono = Geist_Mono({
   display: "swap",
   variable: "--font-geist-mono",
 });
-
+const orbitron = Orbitron({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"]
+});
 export const metadata: Metadata = {
   title: "Bappy",
   description:
@@ -45,7 +48,7 @@ export default function RootLayout({
               <ParticleBackground />
               {children}
             </ProvidersWrapper>
-              {/* <MusicPlayerButton /> */}
+            {/* <MusicPlayerButton /> */}
           </div>
         </ThemeProvider>
       </body>

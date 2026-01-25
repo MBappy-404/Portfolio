@@ -23,7 +23,7 @@ const HelperAnimation = ({
     <div>
       <main ref={targetRef} className="relative">
         {/* Hero Section */}
-        <HeroSection scrollYProgress={scrollYProgress} />
+        <HeroSection />
         {/* About Section */}
         <About scrollYProgress={scrollYProgress} />
       </main>
