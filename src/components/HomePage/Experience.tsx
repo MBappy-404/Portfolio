@@ -4,13 +4,13 @@ import { ScrollTimeline, TimelineEvent } from "../ScrollStack";
 
 const Experience = () => {
   const myExperience: TimelineEvent[] = [
-  {
-  year: "2023",
-  title: "Web Design",
-  subtitle: "Arodesk Learning",
-  description:
-    "Worked on responsive web design projects, creating modern UIs and improving user experience with HTML, CSS, and JavaScript.",
-},
+    {
+      year: "2023",
+      title: "Web Design",
+      subtitle: "Arodesk Learning",
+      description:
+        "Worked on responsive web design projects, creating modern UIs and improving user experience with HTML, CSS, and JavaScript.",
+    },
 
     {
       year: "2024",

@@ -4,6 +4,10 @@ import React, { useRef, useState } from "react";
 import HeroSection from "./Hero";
 import About from "./About";
 
+
+
+
+
 const HelperAnimation = ({
   scrollReady,
   setScrollReady,
@@ -25,7 +29,7 @@ const HelperAnimation = ({
         {/* Hero Section */}
         <HeroSection />
         {/* About Section */}
-        <About scrollYProgress={scrollYProgress} />
+        <About />
       </main>
     </div>
   );

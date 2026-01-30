@@ -5,7 +5,7 @@ import { motion, useScroll, AnimatePresence } from "framer-motion";
 
 import ParticleBackground from "@/components/particle-background";
 import HeroSection from "@/components/HomePage/Hero";
-import About from "@/components/HomePage/About";
+// import About from "@/components/HomePage/About";
 import Skills from "@/components/HomePage/Skills";
 import Projects from "@/components/HomePage/Projects";
 import Contact from "@/components/HomePage/Contact";

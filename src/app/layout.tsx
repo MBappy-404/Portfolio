@@ -21,7 +21,9 @@ const geistMono = Geist_Mono({
 });
 const orbitron = Orbitron({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"]
+  weight: ["400", "500", "600", "700", "800", "900"],
+  display: "swap",
+  variable: "--font-orbitron",
 });
 export const metadata: Metadata = {
   title: "Bappy",
@@ -33,7 +35,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en" className={`${geistSans.variable} ${orbitron.variable}`}>
       <body className="antialiased">
         <ThemeProvider
           attribute="class"

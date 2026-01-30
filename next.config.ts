@@ -2,8 +2,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   experimental: {
-    optimizeCss: false, // Disable experimental CSS optimization
+    optimizeCss: false,
   },
+
+  // 👇 Keep your existing webpack config
   webpack: (config, { isServer }) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,
@@ -12,12 +14,16 @@ const nextConfig: NextConfig = {
     };
     return config;
   },
+
+  // 👇 REQUIRED for Next.js 16 (silences Turbopack error)
+  turbopack: {},
+
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: '**', // Allow ALL HTTPS image sources
-      }
+        protocol: "https",
+        hostname: "**",
+      },
     ],
   },
 };

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useRef } from "react";
- 
+
 const Contact = () => {
   const targetRef = useRef(null);
 
@@ -21,7 +21,7 @@ const Contact = () => {
   const springY3 = useSpring(y3, { stiffness: 100, damping: 20 });
   return (
     <div>
-        <style jsx>{`
+      <style jsx>{`
         @property --border-angle {
           syntax: "<angle>";
           inherits: true;
@@ -100,7 +100,7 @@ const Contact = () => {
                     <h4 className="font-medium">Email</h4>
                     <Link
                       href="mailto:muhammadbappy989@gmail.com"
-                       target="_blank"
+                      target="_blank"
                       className="text-muted-[#0a0a0d] hover:text-[#6c2bd9] transition-colors"
                     >
                       muhammadbappy989@gmail.com
@@ -147,7 +147,7 @@ const Contact = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8 }}
-               
+
             >
               <div className="p-5 md:p-8  border-gray-200 dark:[background:linear-gradient(45deg,#080b11,theme(colors.gray.900),#172033)_padding-box,conic-gradient(from_var(--border-angle),theme(colors.gray.600/.20)_80%,theme(colors.indigo.500)_86%,theme(colors.indigo.300)_90%,theme(colors.indigo.500)_94%,theme(colors.slate.600/.48))_border-box] rounded-2xl border dark:border-transparent animate-border">
                 <form className="space-y-6">
@@ -215,7 +215,7 @@ const Contact = () => {
             </motion.div>
           </div>
         </div>
-       
+
       </section>
     </div>
   );
