@@ -34,7 +34,7 @@ const About = () => {
     const ctx = gsap.context(() => {
       // 1. Horizontal Text Scroll
       gsap.to(textTrackRef.current, {
-        xPercent: -20,
+        xPercent: -50,
         ease: "none",
         scrollTrigger: {
           trigger: containerRef.current,
@@ -83,7 +83,7 @@ const About = () => {
       {/* --- CSS Variables --- */}
       <style jsx global>{`
         :root {
-          --page-bg: #E5E7EB;
+          --page-bg: #e5e7eb;
           --card-bg: #050505;
           --curve-size: 40px;
           --tab-height: 60px;
@@ -93,19 +93,18 @@ const About = () => {
           --page-bg: #020617;
           --card-bg: #050505;
         }
-        
+
         /* Ensure font-orbitron class works if Tailwind config is missing */
         .font-orbitron {
           font-family: var(--font-orbitron), sans-serif;
         }
         .font-inter {
-            font-family: var(--font-inter), sans-serif;
+          font-family: var(--font-inter), sans-serif;
         }
       `}</style>
 
       {/* ================= MAIN CONTAINER ================= */}
       <div className="relative w-full container mx-auto">
-
         {/* ================= TOP CENTER TAB (Black - BIO_DATA) ================= */}
         <div
           className="absolute left-1/2 -translate-x-1/2 z-30 w-[200px] flex justify-center transition-colors duration-300"
@@ -139,7 +138,6 @@ const About = () => {
 
         {/* ================= THE CARD BODY ================= */}
         <div className="relative w-full bg-[#050505] min-h-[700px] rounded-[40px] z-20  flex flex-col items-center">
-
           {/* Background Wrapper */}
           <div className="absolute inset-0 overflow-hidden rounded-[40px] pointer-events-none">
             {/* --- PARALLAX TEXT --- */}
@@ -194,9 +192,19 @@ const About = () => {
               </div>
 
               <div className="reveal-text space-y-6 text-gray-400 font-inter text-base md:text-lg leading-relaxed">
-                <p>  I am a frontend-focused web developer with over two years of experience building clean, responsive, and user-friendly interfaces. I specialize in UI development, focusing on performance, accessibility, and maintainable code.</p>
                 <p>
-                  I work with modern JavaScript frameworks to deliver production-ready frontend solutions and collaborate effectively with backend systems when needed. I prioritize clear, well-structured code and long-term quality in user experience.
+                  {" "}
+                  I am a frontend-focused web developer with over two years of
+                  experience building clean, responsive, and user-friendly
+                  interfaces. I specialize in UI development, focusing on
+                  performance, accessibility, and maintainable code.
+                </p>
+                <p>
+                  I work with modern JavaScript frameworks to deliver
+                  production-ready frontend solutions and collaborate
+                  effectively with backend systems when needed. I prioritize
+                  clear, well-structured code and long-term quality in user
+                  experience.
                 </p>
               </div>
 
@@ -231,7 +239,6 @@ const About = () => {
         >
           {/* Button Background is WHITE */}
           <button className="w-full h-full bg-[#e2e4e8] flex items-center justify-center rounded-b-3xl relative group cursor-pointer shadow-[0_10px_40px_-10px_rgba(255,255,255,0.2)]">
-
             {/* Left Connector (Gradient to WHITE) */}
             <div
               className="absolute top-0 -left-[40px] w-[40px] h-[40px]"
@@ -262,7 +269,6 @@ const About = () => {
             </span>
           </button>
         </div>
-
       </div>
     </section>
   );

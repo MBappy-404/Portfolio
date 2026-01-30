@@ -19,13 +19,15 @@ import {
 import { useState, useRef } from "react";
 import { useGetProjectQuery } from "@/components/redux/features/projects/adminApi";
 
+
 const ProjectDetails = ({ id }: { id: any }) => {
   const { data: projectsData, isLoading } = useGetProjectQuery(id);
   const project = projectsData?.data;
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef });
-  const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
+
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -61,9 +63,9 @@ const ProjectDetails = ({ id }: { id: any }) => {
       {/* Hero Section */}
       <section className="relative w-full container mx-auto px-4   aspect-[3/2] sm:aspect-[16/9] md:aspect-[2/1] lg:aspect-[17/8] mt-[75px] overflow-hidden">
         <motion.div
-           
+
           className="absolute inset-0"
-        > 
+        >
           <Image
             src={project.projectImage}
             alt={project.projectName}
